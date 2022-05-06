@@ -37,7 +37,7 @@ const gltfLoader = new GLTFLoader();
 
 
 //console.log(listModel[0].object.geometry.parameters);
-
+var lastbox = undefined
 LoadAll();
 
 async function LoadModel(path,listModel){
@@ -68,6 +68,7 @@ async function LoadModel(path,listModel){
 			console.log("NbModel : "+nbModel)
 			actualPos += Math.abs(box.max.x-box.min.x) + 1 
 			console.log(actualPos)
+			//(gltf.scene).scale=(2,2,2)
 			//gltf.animations; // Array<THREE.AnimationClip>
 			gltf.scene; // THREE.Group
 			gltf.scenes; // Array<THREE.Group>
@@ -83,10 +84,12 @@ async function LoadModel(path,listModel){
 
 async function LoadAll(){
 	await LoadModel('models/car2.gltf',listModel);
-	await LoadModel('models/old sportcar.glb',listModel);
+	//await LoadModel('models/old sportcar.glb',listModel);
 	await LoadModel('models/car/bus.glb',listModel);
 	console.log("test");
 	console.log(actualPos)
+	lastbox = new THREE.Box3().setFromObject( listModel[nbModel-1] );
+	console.log("Last : "+lastbox.max.x)
 }
 
 var slider = document.getElementById("slider");
@@ -95,7 +98,8 @@ slider.addEventListener("input", moveCube);
 
 function moveCube(e){
 	var target = (e.target) ? e.target : e.srcElement;
-	camera.position.z = 5*target.value;
+	camera.position.x = (target.value/10) * lastbox.max.x
+	console.log((target.value/10)* lastbox.max.x)
 }
 
 const animate = function () {
