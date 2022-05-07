@@ -1,6 +1,66 @@
 body {
     margin: 0px;
     height: 100vh;
-}canvas {
+}
+canvas {
     display: block;
+}
+
+.addbtn {
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    color: #000000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.addbtn:hover {
+    background: #cacaca;
+}
+
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 26px;
+}
+
+.closebtn:hover {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 26px;
+    color: #cacaca;
+}
+
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: -250px;
+    background-color: #e8e8e8;
+    padding-top: 60px;
+    transition: right 0.5s ease;
+}
+
+/* Active class */
+.sidenav.active {
+    right: 0;
+}
+
+/* Close btn */
+.sidenav .close {
+position: absolute;
+top: 0;
+right: 25px;
+font-size: 36px;
 }

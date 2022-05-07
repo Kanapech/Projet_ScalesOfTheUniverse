@@ -20,11 +20,6 @@ camera.position.y = 1;
 var actualPos=0;
 var nbModel = 0;
 
-/*const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);*/
-
 let measure = new THREE.Vector3();
 
 var boundingBox;
@@ -38,9 +33,8 @@ const gltfLoader = new GLTFLoader();
 
 //console.log(listModel[0].object.geometry.parameters);
 var lastbox = undefined
-LoadAll();
 
-async function LoadModel(path,listModel){
+async function LoadModel(path, listModel){
 	await gltfLoader.loadAsync(
 		// resource URL
 		path,
@@ -82,10 +76,28 @@ async function LoadModel(path,listModel){
 	);
 }
 
-async function LoadAll(){
-	await LoadModel('models/car2.gltf',listModel);
-	//await LoadModel('models/old sportcar.glb',listModel);
-	await LoadModel('models/car/bus.glb',listModel);
+//Charge le fichier json et appelle loadAll pour charger les modèles
+fetch("./modelList.json")
+.then(response => {
+   return response.json();
+})
+.then(data => LoadAll(data))
+.catch((error => {console.error(error)}))
+
+//Fonction pour le foreach asynchrone
+async function asyncForEach(array, callback) {
+	for (let index = 0; index < array.length; index++) {
+		await callback(array[index], index, array);
+	}
+}
+
+async function LoadAll(data){
+	//console.log(data)
+	await asyncForEach(data, async element => {
+		await LoadModel(element.path, listModel);
+		console.log(element);
+	});
+
 	console.log("test");
 	console.log(actualPos)
 	lastbox = new THREE.Box3().setFromObject( listModel[nbModel-1] );
@@ -94,21 +106,21 @@ async function LoadAll(){
 
 var slider = document.getElementById("slider");
 slider.value = camera.position.z;
-slider.addEventListener("input", moveCube);
+slider.addEventListener("input", moveCamera);
 
-function moveCube(e){
+function moveCamera(e){
 	var target = (e.target) ? e.target : e.srcElement;
 	camera.position.x = (target.value/10) * lastbox.max.x
 	console.log((target.value/10)* lastbox.max.x)
 }
 
 const animate = function () {
-requestAnimationFrame(animate);
-/*cube.rotation.x += 0.01;
-cube.rotation.y += 0.01;*/
-//bus.rotation.y += 0.001;
+	requestAnimationFrame(animate);
+	/*cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;*/
+	//bus.rotation.y += 0.001;
 
-renderer.render(scene, camera);
+	renderer.render(scene, camera);
 };
 
 animate();

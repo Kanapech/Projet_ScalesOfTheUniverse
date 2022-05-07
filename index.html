@@ -6,10 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>three.js Project</title>
     <link rel="stylesheet" href="./css/style.css">
+    <script defer src="./js/all.js"></script>
+    
 </head>
 <body>
 
     <input type="range" min="0" max="10" value="0" step="0.1" id="slider" orient="vertical" style="position:absolute;">
+    <button id="addbtn" class="addbtn" style="position:absolute; right:20px; top:10px;"><i class="fa-solid fa-plus"></i></button>
+    
+    <div id="addmenu" class="sidenav">
+        <a id="closebtn" class="closebtn"><i class="fa-solid fa-xmark"></i></a>
+        <form name="addform" id="addform">
+            <input type="file" id="model_uploads" name="model_uploads" accept=".glb" required>
+            <label for="scale_input">Échelle du modèle</label>
+            <input type="text" id="scale_input" name="scale_input" required>
+            <button type="submit">Envoyer</button>
+        </form>
+        
+    </div>
+
+    <script src="./js/menu.js".js"></script> 
     <script type="module" src="./js/main.js"></script>
 </body>
 </html>
