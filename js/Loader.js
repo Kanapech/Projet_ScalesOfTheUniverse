@@ -1,6 +1,6 @@
 import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
 import { OBJLoader } from '../three/examples/jsm/loaders/OBJLoader.js';
-import { Box3 } from '../three/build/three.module.js';
+import { TextureLoader, SpriteMaterial, Sprite, Box3 } from '../three/build/three.module.js';
 
 const gltfLoader = new GLTFLoader();
 const objLoader = new OBJLoader();
@@ -16,13 +16,20 @@ export async function LoadModel(scene,path,listModel,actualPos){
             await LoadModelGLTF(scene,path,listModel,actualPos)
             break;
         case 'gltf':
-            console.log("go gltf")
             await LoadModelGLTF(scene,path,listModel,actualPos)
             break;
+        case 'png':
+                console.log("go png")
+                await LoadImage(scene,path,listModel,actualPos)
+                break;
+        case 'jpg':
+                console.log("go jpg")
+                await LoadImage(scene,path,listModel,actualPos)
+                break;
     }
 }
 
-export async function LoadModelGLTF(scene,path, listModel,actualPos){
+async function LoadModelGLTF(scene,path, listModel,actualPos){
     await gltfLoader.loadAsync(
         // resource URL
         path,
@@ -51,7 +58,7 @@ export async function LoadModelGLTF(scene,path, listModel,actualPos){
     );
 }
 
-export async function LoadModelOBJ(scene,path, listModel,actualPos){
+async function LoadModelOBJ(scene,path, listModel,actualPos){
     await objLoader.loadAsync(
         // resource URL
         path,
@@ -73,4 +80,17 @@ export async function LoadModelOBJ(scene,path, listModel,actualPos){
             console.log(error)
         }
     );
+}
+
+export async function LoadImage(scene,path,listModel,actualPos){
+    const map = new TextureLoader().load( path );
+    const material = new SpriteMaterial( { map: map } );
+    const sprite = new Sprite( material );
+    listModel.push(sprite);
+    scene.add( sprite );
+    var box = new Box3().setFromObject(sprite);
+    (sprite).translateY(-box.min.y);
+    (sprite).translateX(actualPos[0]+ Math.abs(box.min.x))
+    actualPos[0] += Math.abs(box.max.x-box.min.x) + 1
+    console.log(box)
 }

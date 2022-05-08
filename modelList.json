@@ -30,15 +30,15 @@
         "size": "320"
     },
     {
-        "path": "./models/scene.gltf",
-        "name": "F1",
-        "description": "Vrooom",
-        "size": "320"
+        "path": "./models/atom.png",
+        "name": "Atome png",
+        "description": "Hihi l'atome png",
+        "size": "0.01"
     },
     {
-        "path": "./models/Mario.obj",
-        "name": "Mario",
-        "description": "it's me Mario",
-        "size": "320"
+        "path": "./models/atom.jpg",
+        "name": "Atome jpg",
+        "description": "Hihi l'atome jpg",
+        "size": "0.01"
     }
 ]

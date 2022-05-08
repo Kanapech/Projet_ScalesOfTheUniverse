@@ -52,7 +52,8 @@ function showDesc() {
 	raycaster.setFromCamera( pointer, camera );
 
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( listModel, true);
+	const intersects = raycaster.intersectObjects( scene.children, true);
+	console.log(intersects[0])
 	var clickedObj = checkParentInList(intersects[0]);
 
 	if(clickedObj != undefined){
@@ -120,7 +121,7 @@ async function LoadAll(data){
 		await Loader.LoadModel(scene,element.path, listModel,actualPos);
 		//await Loader.LoadModelGLTF(scene,element.path, listModel,actualPos);
 	});
-	//await Loader.LoadModelOBJ(scene,"./models/Mario.obj",listModel,actualPos)
+	//Loader.LoadImage(scene,"./models/atom.png",listModel,actualPos)
 	console.log("Loading all models");
 	console.log(actualPos)
 	lastbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1] );
