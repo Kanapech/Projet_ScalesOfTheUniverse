@@ -78,29 +78,24 @@ function render() {
 	raycaster.setFromCamera( pointer, camera );
 
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( listModel );
+	const intersects = raycaster.intersectObjects( listModel,true);
+
+	console.log(intersects[0])
 	//console.log(intersects)
-	//checkParentInList(intersects[0])
-	for ( let i = 0; i < intersects.length; i ++ ) {
-		console.log(intersects[i])
-		intersects[ i ].object.material.color.set( 0xff0000 );
+	checkParentInList(intersects[0])
 
-	}
-
-	//renderer.render( scene, camera );
 
 }
 
 function checkParentInList(objchild){
-	var current = objchild
-	/*while(objchild.object.parent.type!="Scene"){
-		console.log(objchild.object.parent)
-		current = objchild.object.parent
-	}*/
-	console.log(objchild.parent)
-	objchild=objchild.object.parent
-	//console.log(objchild.object.parent)
-	console.log(objchild)
+	if(objchild === undefined)
+		return
+	var current = objchild.object
+	while(current.parent.parent!==null){
+		current = current.parent
+	}
+	console.log(current)
+	console.log(listModel.indexOf(current))
 }
 
 function onPointerMove( event ) {
@@ -146,6 +141,7 @@ async function LoadAll(data){
 	lastbox = new THREE.Box3().setFromObject( listModel[nbModel-1] );
 	console.log("Last : "+lastbox.max.x)
 	console.log(listModel)
+	console.log(scene.children)
 }
 
 var slider = document.getElementById("slider");
