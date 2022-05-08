@@ -55,8 +55,6 @@ function showDesc() {
 	const intersects = raycaster.intersectObjects( listModel, true);
 	var clickedObj = checkParentInList(intersects[0]);
 
-	console.log(intersects[0])
-
 	if(clickedObj != undefined){
 		closeDesc();
 		modelName.innerText = data[clickedObj]["name"]
@@ -81,7 +79,6 @@ function checkParentInList(objchild){
 		current = current.parent
 	}
 
-	console.log(listModel.indexOf(current))
 	return(listModel.indexOf(current))
 }
 
@@ -120,9 +117,10 @@ async function LoadAll(data){
 	//console.log(data)
 	await asyncForEach(data, async element => {
 		//await LoadModel(element.path, listModel);
-		await Loader.LoadModelGLTF(scene,element.path, listModel,nbModel,actualPos);
+		await Loader.LoadModel(scene,element.path, listModel,actualPos);
+		//await Loader.LoadModelGLTF(scene,element.path, listModel,actualPos);
 	});
-
+	//await Loader.LoadModelOBJ(scene,"./models/Mario.obj",listModel,actualPos)
 	console.log("Loading all models");
 	console.log(actualPos)
 	lastbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1] );

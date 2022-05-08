@@ -28,5 +28,17 @@
         "name": "Tour Eiffel",
         "description": "Eiffel",
         "size": "320"
+    },
+    {
+        "path": "./models/scene.gltf",
+        "name": "F1",
+        "description": "Vrooom",
+        "size": "320"
+    },
+    {
+        "path": "./models/Mario.obj",
+        "name": "Mario",
+        "description": "it's me Mario",
+        "size": "320"
     }
 ]
