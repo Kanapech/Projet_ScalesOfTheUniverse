@@ -6,6 +6,7 @@ const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(1,0.7,0.7)
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -70,6 +71,8 @@ async function LoadModel(path, listModel){
 	);
 }
 
+
+// Model Description
 function showDesc() {
 	var descDisplay = document.getElementById("descDisplay");
 	var modelName = document.getElementById("modelName");
@@ -101,6 +104,7 @@ function closeDesc() {
 	descDisplay.classList.remove("active");
 }
 
+//Return index of clicked model in models list
 function checkParentInList(objchild){
 	if(objchild === undefined)
 		return
@@ -121,7 +125,6 @@ function onPointerMove( event ) {
 	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
-
 
 
 window.addEventListener( 'pointermove', onPointerMove );
@@ -151,7 +154,7 @@ async function LoadAll(data){
 		await LoadModel(element.path, listModel);
 	});
 
-	console.log("test");
+	console.log("Loading all models");
 	console.log(actualPos)
 	lastbox = new THREE.Box3().setFromObject( listModel[nbModel-1] );
 	console.log("Last : "+lastbox.max.x)
@@ -162,6 +165,17 @@ async function LoadAll(data){
 var slider = document.getElementById("slider");
 slider.value = 0;
 slider.addEventListener("input", moveCamera);
+window.addEventListener("wheel", moveSlider);
+
+function moveSlider(e){
+	if (e.deltaY < 0){
+		slider.value -= 1;
+	}else{
+		slider.valueAsNumber += 1;
+	}
+
+	slider.dispatchEvent(new Event('input'));
+}
 
 function moveCamera(e){
 	var target = (e.target) ? e.target : e.srcElement;
