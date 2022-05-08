@@ -27,12 +27,10 @@ let measure = new THREE.Vector3();
 
 var boundingBox;
 var size;
+var data;
 
 let listModel = new Array();
-var bus = undefined;
 const gltfLoader = new GLTFLoader();
-
-
 
 //console.log(listModel[0].object.geometry.parameters);
 var lastbox = undefined
@@ -72,19 +70,35 @@ async function LoadModel(path, listModel){
 	);
 }
 
-function render() {
-	console.log("test")
+function showDesc() {
+	var descDisplay = document.getElementById("descDisplay");
+	var modelName = document.getElementById("modelName");
+	var modelDesc = document.getElementById("modelDesc");
+	var descCloseBtn = document.getElementById("descClosebtn");
+	descCloseBtn.onclick = closeDesc;
+
 	// update the picking ray with the camera and pointer position
 	raycaster.setFromCamera( pointer, camera );
 
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( listModel,true);
+	const intersects = raycaster.intersectObjects( listModel, true);
+	var clickedObj = checkParentInList(intersects[0]);
 
 	console.log(intersects[0])
-	//console.log(intersects)
-	checkParentInList(intersects[0])
 
+	if(clickedObj != undefined){
+		closeDesc();
+		modelName.innerText = data[clickedObj]["name"]
+		modelDesc.innerText = data[clickedObj]["description"]
+		descDisplay.classList.add("active")
+	}
+	else if(descDisplay.classList.contains("active")){
+		closeDesc();
+	}
+}
 
+function closeDesc() {
+	descDisplay.classList.remove("active");
 }
 
 function checkParentInList(objchild){
@@ -94,8 +108,9 @@ function checkParentInList(objchild){
 	while(current.parent.parent!==null){
 		current = current.parent
 	}
-	console.log(current)
+
 	console.log(listModel.indexOf(current))
+	return(listModel.indexOf(current))
 }
 
 function onPointerMove( event ) {
@@ -110,8 +125,8 @@ function onPointerMove( event ) {
 
 
 window.addEventListener( 'pointermove', onPointerMove );
-window.addEventListener('click',render)
-window.requestAnimationFrame(render);
+window.addEventListener('click', showDesc)
+//window.requestAnimationFrame(render);
 
 
 //Charge le fichier json et appelle loadAll pour charger les modèles
@@ -119,20 +134,15 @@ fetch("./modelList.json")
 .then(response => {
    return response.json();
 })
-.then(data => LoadAll(data))
+.then(json => {
+	data = json
+	LoadAll(data)})
 .catch((error => {console.error(error)}))
-
-//Fonction pour le foreach asynchrone
-async function asyncForEach(array, callback) {
-	for (let index = 0; index < array.length; index++) {
-		await callback(array[index], index, array);
-	}
-}
 
 async function LoadAll(data){
 	//console.log(data)
-	await asyncForEach(data, async element => {
-		await LoadModel(element.path, listModel);
+	data.forEach(element => {
+		LoadModel(element.path, listModel);
 		console.log(element);
 	});
 

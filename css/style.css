@@ -59,13 +59,37 @@ canvas {
 
 /* Close btn */
 .sidenav .close {
-position: absolute;
-top: 0;
-right: 25px;
-font-size: 36px;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
 }
 
 
 #addform {
     padding-left: 10px;
+}
+
+.descDisplay {
+    height: 20%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    bottom: -250px;
+    background-color: #e8e8e8;
+    padding-top: 60px;
+    transition: bottom 0.5s ease;
+    
+}
+
+/* Active class */
+.descDisplay.active {
+    bottom: 0;
+}
+
+/* Close btn */
+.descDisplay.close {
+    position: absolute;
+    bottom: -250px;
+    font-size: 36px;
 }

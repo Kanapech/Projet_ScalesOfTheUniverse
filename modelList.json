@@ -1,12 +1,21 @@
 [
     {
-        "path": "./models/car2.gltf"
+        "path": "./models/car2.gltf",
+        "name": "Voiture 2",
+        "description": "La Voiture 2",
+        "size": "1"
     },
     {
-        "path": "./models/old sportcar.glb"
+        "path": "./models/old sportcar.glb",
+        "name": "Voiture 2 sport",
+        "description": "La Voiture 2 Sport",
+        "size": "1.2"
     },
     {
-        "path": "./models/bus.glb"
+        "path": "./models/bus.glb",
+        "name": "Bus",
+        "description": "Le Bus",
+        "size": "1.3"
     }
   ]
   
