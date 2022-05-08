@@ -17,7 +17,7 @@ function handleFormSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const obj = Object.fromEntries(data.entries());
-    //console.log({obj});
+    console.log({obj});
 }
   
   const form = document.getElementById("addform");
