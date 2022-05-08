@@ -1,5 +1,11 @@
 [
     {
+        "path": "./models/ballon.glb",
+        "name": "Ballon",
+        "description": "Ballon de football",
+        "size": "0.01"
+    },
+    {
         "path": "./models/car2.gltf",
         "name": "Voiture 2",
         "description": "La Voiture 2",
@@ -17,5 +23,4 @@
         "description": "Le Bus",
         "size": "1.3"
     }
-  ]
-  
+]

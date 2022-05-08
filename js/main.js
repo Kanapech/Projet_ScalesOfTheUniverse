@@ -1,6 +1,7 @@
 import * as THREE from '../three/build/three.module.js';
 import { TrackballControls } from '../three/examples/jsm/controls/TrackballControls.js';// Scene
 import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
+import * as Loader from './Loader.js'
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -20,7 +21,8 @@ scene.add( light );
 camera.position.z = 10;
 camera.position.y = 1;
 
-var actualPos=0;
+var actualPos= new Array()
+actualPos.push(0)
 var nbModel = 0;
 
 let measure = new THREE.Vector3();
@@ -35,40 +37,6 @@ const gltfLoader = new GLTFLoader();
 //console.log(listModel[0].object.geometry.parameters);
 var lastbox = undefined
 
-async function LoadModel(path, listModel){
-	await gltfLoader.loadAsync(
-		// resource URL
-		path,
-		// called when the resource is loaded
-		
-		// called while loading is progressing
-		function ( xhr ) {
-	
-			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-	
-		}
-		// called when loading has errors
-		
-	).then(
-		function ( gltf ) {
-			listModel.push(gltf.scene)
-			scene.add(gltf.scene)
-			var box = new THREE.Box3().setFromObject( gltf.scene );
-			(gltf.scene).translateX(actualPos+ Math.abs(box.min.x))
-			actualPos += Math.abs(box.max.x-box.min.x) + 1 
-
-			//gltf.animations; // Array<THREE.AnimationClip>
-			gltf.scene; // THREE.Group
-			gltf.scenes; // Array<THREE.Group>
-			gltf.cameras; // Array<THREE.Camera>
-			gltf.asset; // Object
-			nbModel = nbModel + 1;
-	}).catch(
-		function ( error ) {
-			console.log( 'An error happened' );
-		}
-	);
-}
 
 function showDesc() {
 	var descDisplay = document.getElementById("descDisplay");
@@ -148,15 +116,16 @@ async function asyncForEach(array, callback) {
 async function LoadAll(data){
 	//console.log(data)
 	await asyncForEach(data, async element => {
-		await LoadModel(element.path, listModel);
+		//await LoadModel(element.path, listModel);
+		await Loader.LoadModelGLTF(scene,element.path, listModel,nbModel,actualPos);
 	});
 
 	console.log("test");
 	console.log(actualPos)
-	lastbox = new THREE.Box3().setFromObject( listModel[nbModel-1] );
+	lastbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1] );
 	console.log("Last : "+lastbox.max.x)
 	console.log(listModel)
-	console.log(scene.children)
+	console.log(nbModel)
 }
 
 var slider = document.getElementById("slider");
