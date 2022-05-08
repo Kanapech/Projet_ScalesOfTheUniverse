@@ -22,5 +22,11 @@
         "name": "Bus",
         "description": "Le Bus",
         "size": "1.3"
+    },
+    {
+        "path": "./models/eiffel.glb",
+        "name": "Tour Eiffel",
+        "description": "Eiffel",
+        "size": "320"
     }
 ]
