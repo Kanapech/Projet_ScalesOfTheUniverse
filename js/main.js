@@ -139,11 +139,16 @@ fetch("./modelList.json")
 	LoadAll(data)})
 .catch((error => {console.error(error)}))
 
+async function asyncForEach(array, callback) {
+	for (let index = 0; index < array.length; index++) {
+		await callback(array[index], index, array);
+	}
+}
+
 async function LoadAll(data){
 	//console.log(data)
-	data.forEach(element => {
-		LoadModel(element.path, listModel);
-		console.log(element);
+	await asyncForEach(data, async element => {
+		await LoadModel(element.path, listModel);
 	});
 
 	console.log("test");
