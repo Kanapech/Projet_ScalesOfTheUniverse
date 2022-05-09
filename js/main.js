@@ -9,7 +9,7 @@ let listModel = new Array();
 var currentbox;
 var delta;
 var distance;
-var fov = camera.fov * ( Math.PI / 180 ); 
+
 
 //Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
 fetch("./modelList.json")
@@ -32,6 +32,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(1,0.7,0.7)
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+var fov = camera.fov * ( Math.PI / 180 ); 
 scene.add(camera)
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -128,7 +129,6 @@ async function LoadAll(data){
 	console.log(actualPos)
 	console.log("Last : "+ currentbox.max.x)
 	console.log("list length :"+listModel.length)
-	distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 
 	//initCamera()
 	//console.log(listModel)
@@ -172,10 +172,10 @@ function moveCamera(e){
 	var size = new THREE.Vector3();
 	var target = (e.target) ? e.target : e.srcElement;
 	console.log(target.value);
-	if(e.target!=0){
+	if(target.valueAsNumber !=0){
 		var box1 = new THREE.Box3().setFromObject( listModel[target.value])
 		console.log(box1)
-		var box2 = new THREE.Box3().setFromObject( listModel[target.value-1])
+		var box2 = new THREE.Box3().setFromObject( listModel[target.valueAsNumber-1])
 		console.log(box2)
 		box1 = box1.union(box2)
 		console.log(box1)
@@ -184,7 +184,7 @@ function moveCamera(e){
 		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
 		console.log(distance)
 	}
-	if(e.target==0){
+	if(target.valueAsNumber == 0){
 		var box1 = new THREE.Box3().setFromObject( listModel[0])
 		/*console.log(box1)
 		box1.getSize(size);
