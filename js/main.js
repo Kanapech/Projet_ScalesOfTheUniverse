@@ -9,6 +9,7 @@ let listModel = new Array();
 var currentbox;
 var delta;
 var distance;
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 1000);
 var fov = camera.fov * ( Math.PI / 180 ); 
 
 //Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
@@ -31,7 +32,7 @@ const pointer = new THREE.Vector2();
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(1,0.7,0.7)
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
 scene.add(camera)
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
