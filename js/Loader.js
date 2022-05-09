@@ -9,7 +9,7 @@ const progressDiv = document.getElementById("progressDiv");
 const loadBar = document.getElementById("loadBar");
 manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 
-	console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+	//console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
     loadBar.value = itemsLoaded / itemsTotal*100;
 
 };
@@ -151,5 +151,4 @@ export async function LoadImage(scene, path, size, listModel, actualPos){
     (sprite).translateZ(box.min.z);
     (sprite).translateX(actualPos[0]+ Math.abs(box.min.x))
     actualPos[0] += Math.abs(box.max.x-box.min.x)
-    console.log(box)
 }

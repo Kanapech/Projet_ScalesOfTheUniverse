@@ -12,12 +12,6 @@
         "size": "2"
     },
     {
-        "path": "./models/old sportcar.glb",
-        "name": "Voiture 2 sport",
-        "description": "La Voiture 2 Sport",
-        "size": "1.7"
-    },
-    {
         "path": "./models/bus.glb",
         "name": "Bus",
         "description": "Un autobus est un véhicule de transport routier de voyageurs en milieux urbain/périurbain et suburbain. C'est l'un des principaux types de véhicules employé dans les transports en commun. ",
@@ -40,18 +34,6 @@
         "name": "Mario",
         "description": "Mario[e] is a fictional character created by Japanese video game designer Shigeru Miyamoto. He is the title character of the video game franchise of the same name and the mascot of Japanese video game company Nintendo. Mario has appeared in over 200 video games since his creation. Depicted as a short, pudgy, Italian plumber who resides in the Mushroom Kingdom, his adventures generally center on rescuing Princess Peach from the Koopa villain Bowser. Mario has access to a variety of power-ups that give him different abilities. Mario's fraternal twin brother is Luigi. ",
         "size": "1.75"
-    },
-    {
-        "path": "./models/atom.png",
-        "name": "Atome png",
-        "description": "Hihi l'atome png",
-        "size": "1"
-    },
-    {
-        "path": "./models/atom.jpg",
-        "name": "Atome jpg",
-        "description": "Hihi l'atome jpg",
-        "size": "0.001"
     },
     {
         "path": "./models/hubble.obj",
@@ -82,5 +64,11 @@
         "name": "50 Centimes d'euro",
         "description": "Une pièce de 50 Centimes d'euro",
         "size": "0.024"
+    },
+    {
+        "path": "./models/iss.glb",
+        "name": "ISS",
+        "description": "La station spatiale internationale",
+        "size": "109"
     }
 ]
