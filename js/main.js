@@ -7,9 +7,7 @@ var actualPos= new Array()
 actualPos.push(0)
 var data;
 let listModel = new Array();
-var currentbox;
 var distance;
-var size = new THREE.Vector3()
 
 //Caméra
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 1000);

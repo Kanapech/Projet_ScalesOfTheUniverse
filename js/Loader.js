@@ -27,18 +27,24 @@ export async function LoadAll(data,camera,scene,listModel,actualPos){
     let currentbox;
     let distance;
     manager.itemStart( fakeRequestURL );
-	await asyncForEach(data, async element => {
-		await LoadModel(scene, element.path, element.size, listModel, actualPos);
-		currentbox = new Box3().setFromObject( listModel[listModel.length - 1])
-	});
-	let size = new Vector3()
+    await asyncForEach(data, async element => {
+        await LoadModel(scene, element.path, element.size, listModel, actualPos);
+        currentbox = new Box3().setFromObject( listModel[listModel.length - 1])
+    });
+    manager.itemEnd( fakeRequestURL );
+    let size = new Vector3()
+    //Initialise la caméra centrée sur l'objet 0
+	var box0 = new Box3().setFromObject( listModel[0] )
+	box0.getSize(size)
+	camera.position.set(box0.getCenter(new Vector3).x, 
+		box0.getCenter(new Vector3).y, 
+		Math.abs( size.y / Math.sin( camera.fov * ( Math.PI / 180 ) / 2) ))
 	currentbox.getSize(size)
-
-	distance = Math.abs( size.y / Math.sin( camera.fov * ( Math.PI / 180 ) / 2 ) ) + size.z;
+	distance = Math.abs( size.y / Math.sin( camera.fov * ( Math.PI / 180 ) / 2 ) );
 	camera.far = distance;
 	camera.updateProjectionMatrix();
 	console.log(camera.far);
-    manager.itemEnd( fakeRequestURL );
+
 }
 
 async function asyncForEach(array, callback) {
