@@ -9,7 +9,7 @@ const progressDiv = document.getElementById("progressDiv");
 const loadBar = document.getElementById("loadBar");
 manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 
-	console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+	//console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
     loadBar.value = itemsLoaded / itemsTotal*100;
 
 };
@@ -71,7 +71,7 @@ export async function LoadModelGLTF(scene, path, size, listModel, actualPos){
 
             scene.add(gltf.scene)            
            
-            actualPos[0] += Math.abs(box.max.x-box.min.x) + 1
+            actualPos[0] += Math.abs(box.max.x-box.min.x)
                 
             //gltf.animations; // Array<THREE.AnimationClip>
             gltf.scene; // THREE.Group
@@ -113,7 +113,7 @@ export async function LoadModelOBJ(scene, path, size, listModel, actualPos){
 
             scene.add(obj)
             
-            actualPos[0] += Math.abs(box.max.x-box.min.x) + 1
+            actualPos[0] += Math.abs(box.max.x-box.min.x)
         }
     ).catch(
         function ( error ) {
@@ -147,6 +147,5 @@ export async function LoadImage(scene, path, size, listModel, actualPos){
 
     (sprite).translateY(-box.min.y);
     (sprite).translateX(actualPos[0]+ Math.abs(box.min.x))
-    actualPos[0] += Math.abs(box.max.x-box.min.x) + 1
-    console.log(box)
+    actualPos[0] += Math.abs(box.max.x-box.min.x)
 }
