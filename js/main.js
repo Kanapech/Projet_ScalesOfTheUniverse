@@ -64,7 +64,6 @@ function showDesc() {
 
 	// calculate objects intersecting the picking ray
 	const intersects = raycaster.intersectObjects( scene.children, true);
-	//console.log(intersects[0])
 	var clickedObj = checkParentInList(intersects[0]);
 
 	if(clickedObj != undefined){
@@ -117,8 +116,6 @@ async function asyncForEach(array, callback) {
 }
 
 async function LoadAll(data){
-	//console.log(data)
-	//console.log("Loading all models");
 	await asyncForEach(data, async element => {
 		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
 		currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
@@ -130,8 +127,10 @@ async function LoadAll(data){
 	console.log("Last : "+ currentbox.max.x)
 	console.log("list length :"+listModel.length)
 
-	//initCamera()
-	//console.log(listModel)
+	distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+	camera.far = distance;
+	camera.updateProjectionMatrix();
+	console.log(camera.far);
 }
 
 /*function initCamera(){
@@ -171,32 +170,23 @@ function moveCamera(e){
 	var center = new THREE.Vector3();
 	var size = new THREE.Vector3();
 	var target = (e.target) ? e.target : e.srcElement;
-	console.log(target.value);
-	if(target.valueAsNumber !=0){
+	if(target.valueAsNumber!=0){
 		var box1 = new THREE.Box3().setFromObject( listModel[target.value])
-		console.log(box1)
-		var box2 = new THREE.Box3().setFromObject( listModel[target.valueAsNumber-1])
-		console.log(box2)
+		var box2 = new THREE.Box3().setFromObject( listModel[target.value-1])
 		box1 = box1.union(box2)
-		console.log(box1)
 		box1.getSize(size);
 		box1.getCenter(center);
 		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
-		console.log(distance)
 	}
-	if(target.valueAsNumber == 0){
+	if(target.valueAsNumber==0){
 		var box1 = new THREE.Box3().setFromObject( listModel[0])
-		/*console.log(box1)
 		box1.getSize(size);
 		box1.getCenter(center);
 		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
-
-		console.log(distance)*/
 	}
 	camera.position.x = center.x
 	camera.position.y = center.y
 	camera.position.z = distance
-	//console.log(camera.position.z)
 }
 
 const animate = function () {
