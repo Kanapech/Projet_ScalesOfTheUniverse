@@ -123,10 +123,8 @@ async function LoadAll(data){
 		const box = new THREE.BoxHelper( listModel[listModel.length - 1], 0xffff00 );
 		scene.add( box );
 	});
-
-	console.log(actualPos)
-	console.log("Last : "+ currentbox.max.x)
-	console.log("list length :"+listModel.length)
+	var size = new THREE.Vector3()
+	currentbox.getSize(size)
 
 	distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
 	camera.far = distance;
