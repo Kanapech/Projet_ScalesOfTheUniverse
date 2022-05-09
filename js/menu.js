@@ -13,12 +13,20 @@ function closeNav() {
   sidenav.classList.remove("active");
 }
 
-function handleFormSubmit(event) {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    const obj = Object.fromEntries(data.entries());
-    console.log({obj});
-}
+async function handleFormSubmit(event) {
   
-  const form = document.getElementById("addform");
-  form.addEventListener('submit', handleFormSubmit);
+  const input = document.getElementById("model_uploads")
+  event.preventDefault();
+  const data = new FormData(event.target);
+  data.append(input.files[0])
+  const obj = JSON.stringify(Object.fromEntries(data.entries()));
+
+  console.log(input.files[0]);
+  await fetch('test.json', { 
+    method: "POST", 
+    body: obj
+  }); 
+  alert('You have successfully upload the file!');
+}
+const form = document.getElementById("addform");
+form.addEventListener('submit', handleFormSubmit);
