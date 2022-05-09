@@ -31,14 +31,15 @@ export async function LoadAll(data,camera,scene,listModel,actualPos){
 		await LoadModel(scene, element.path, element.size, listModel, actualPos);
 		currentbox = new Box3().setFromObject( listModel[listModel.length - 1])
 	});
+    manager.itemEnd( fakeRequestURL );
 	let size = new Vector3()
 	currentbox.getSize(size)
 
-	distance = Math.abs( size.y / Math.sin( camera.fov * ( Math.PI / 180 ) / 2 ) ) + size.z;
+	distance = Math.abs( size.y / Math.sin( camera.fov * ( Math.PI / 180 ) / 2 ) );
 	camera.far = distance;
 	camera.updateProjectionMatrix();
 	console.log(camera.far);
-    manager.itemEnd( fakeRequestURL );
+    
 }
 
 async function asyncForEach(array, callback) {

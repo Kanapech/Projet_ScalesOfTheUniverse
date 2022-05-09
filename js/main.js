@@ -9,7 +9,8 @@ var data;
 let listModel = new Array();
 var currentbox;
 var distance;
-var size = new THREE.Vector3()
+var center = new THREE.Vector3(0,0,0);
+var size = new THREE.Vector3(0,0,0);
 
 //Caméra
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 1000);
@@ -128,8 +129,8 @@ function moveSlider(e){
 }
 
 function moveCamera(e){
-	var center = new THREE.Vector3();
-	var size = new THREE.Vector3();
+	//var center = new THREE.Vector3();
+	//var size = new THREE.Vector3();
 	var target = (e.target) ? e.target : e.srcElement;
 	if(target.valueAsNumber!=0){
 		var box1 = new THREE.Box3().setFromObject( listModel[target.value])
@@ -145,13 +146,11 @@ function moveCamera(e){
 		box1.getCenter(center);
 		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
-	camera.position.x = center.x
-	camera.position.y = center.y
-	camera.position.z = distance
 }
 
 const animate = function () {
 	requestAnimationFrame(animate);
+	camera.position.lerp(new THREE.Vector3(center.x,center.y,distance),0.05);
 	renderer.render(scene, camera);
 	//camera.position.x += 0.1
 };
