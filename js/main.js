@@ -34,8 +34,6 @@ var data;
 
 let listModel = new Array();
 
-
-//console.log(listModel[0].object.geometry.parameters);
 var currentbox = undefined
 var delta;
 var distance;
@@ -55,7 +53,7 @@ function showDesc() {
 
 	// calculate objects intersecting the picking ray
 	const intersects = raycaster.intersectObjects( scene.children, true);
-	console.log(intersects[0])
+	//console.log(intersects[0])
 	var clickedObj = checkParentInList(intersects[0]);
 
 	if(clickedObj != undefined){
@@ -63,6 +61,7 @@ function showDesc() {
 		modelName.innerText = data[clickedObj]["name"]
 		modelDesc.innerText = data[clickedObj]["description"]
 		descDisplay.classList.add("active")
+		camera.position.y -= 5
 	}
 	else if(descDisplay.classList.contains("active")){
 		closeDesc();
@@ -70,6 +69,7 @@ function showDesc() {
 }
 
 function closeDesc() {
+	camera.position.y = 5
 	descDisplay.classList.remove("active");
 }
 
@@ -121,10 +121,12 @@ async function asyncForEach(array, callback) {
 
 async function LoadAll(data){
 	//console.log(data)
-	console.log("Loading all models");
+	//console.log("Loading all models");
 	await asyncForEach(data, async element => {
 		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
+		currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
 	});
+
 	currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
 	var size = new THREE.Vector3();
 	currentbox.getSize(size);
@@ -132,6 +134,7 @@ async function LoadAll(data){
 	distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 	console.log("Nb Model : "+listModel.length)
 	document.getElementById("slider").setAttribute("max", listModel.length - 1);
+
 }
 
 var slider = document.getElementById("slider");
@@ -142,9 +145,9 @@ window.addEventListener("wheel", moveSlider);
 //Slide when mouse scroll
 function moveSlider(e){
 	if (e.deltaY < 0){
-		slider.value -= 1;
+		slider.value -= 0.2;
 	}else{
-		slider.valueAsNumber += 1;
+		slider.valueAsNumber += 0.2;
 	}
 
 	slider.dispatchEvent(new Event('input'));
@@ -167,17 +170,14 @@ function moveCamera(e){
 		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
 		console.log(distance)
 	}
-	if(e.target==0 && listModel.length>=2){
+	if(e.target==0){
 		var box1 = new THREE.Box3().setFromObject( listModel[0])
-		console.log(box1)
-		var box2 = new THREE.Box3().setFromObject( listModel[1])
-		console.log(box2)
-		box1 = box1.union(box2)
-		console.log(box1)
+		/*console.log(box1)
 		box1.getSize(size);
 		box1.getCenter(center);
 		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
-		console.log(distance)
+
+		console.log(distance)*/
 	}
 	camera.position.x = center.x
 	camera.position.y = center.y

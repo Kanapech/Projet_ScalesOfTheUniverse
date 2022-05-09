@@ -6,12 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>three.js Project</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/bulma.min.css">
+    <link rel="stylesheet" href="./css/bulma-slider.min.css">
     <script defer src="./js/all.js"></script>
     
 </head>
 <body>
 
-    <input type="range" min="0" max="10" value="0" step="1" id="slider" orient="vertical" style="position:absolute;">
+    <div id="progressDiv">
+        <label for="loadBar">Chargement...</label>
+        <progress id="loadBar" class="progress is-danger" value="0" max="100"></progress>
+    </div>
+    
+    <input id="slider" class="slider is-large is-info" step="1" min="0" max="10" value="0" type="range" orient="vertical" style="left:20px; position:absolute;">
     <button id="addbtn" class="addbtn" style="position:absolute; right:20px; top:10px;"><i class="fa-solid fa-plus"></i></button>
     
     <div id="addmenu" class="sidenav">
@@ -24,12 +31,17 @@
         </form>   
     </div>
 
-    <div id="descDisplay" class="descDisplay">
-        <a id="descClosebtn" class="closebtn"><i class="fa-solid fa-xmark"></i></a>
-        <h1 id="modelName"></h1>
-        <p id="modelDesc"></p>   
-    </div>
 
+    <section id="descDisplay" class="hero is-medium is-link descDisplay">
+        <a id="descClosebtn" class="closebtn"><i class="fa-solid fa-xmark"></i></a>
+         
+        <div class="hero-body">
+            <p id="modelName" class="title"></>
+            <p id="modelDesc" class="subtitle"></p>  
+        </div>
+    </section>
+
+    <script src="./js/bulma-slider.min.js"></script>
     <script src="./js/menu.js".js"></script> 
     <script type="module" src="./js/main.js"></script>
 </body>
