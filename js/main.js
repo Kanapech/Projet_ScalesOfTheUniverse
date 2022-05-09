@@ -17,8 +17,8 @@ document.body.appendChild(renderer.domElement);
 const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( light );
 
-camera.position.z = 20;
-camera.position.y = 1;
+camera.position.z = 30;
+camera.position.y = 5;
 
 var actualPos= new Array()
 actualPos.push(0)

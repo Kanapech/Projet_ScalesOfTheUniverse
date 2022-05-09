@@ -30,13 +30,13 @@
         "size": "300"
     },
     {
-        "path": "./models/scene.gltf",
+        "path": "./models/f1.glb",
         "name": "F1",
         "description": "Vrooom",
         "size": "0.95"
     },
     {
-        "path": "./models/Mario.obj",
+        "path": "./models/mario.glb",
         "name": "Mario",
         "description": "it's me Mario",
         "size": "1.75"
@@ -45,12 +45,42 @@
         "path": "./models/atom.png",
         "name": "Atome png",
         "description": "Hihi l'atome png",
-        "size": "0.001"
+        "size": "1"
     },
     {
         "path": "./models/atom.jpg",
         "name": "Atome jpg",
         "description": "Hihi l'atome jpg",
         "size": "0.001"
+    },
+    {
+        "path": "./models/hubble.obj",
+        "name": "Hubble Space Satellite",
+        "description": "Le satellite hubble",
+        "size": "13.2"
+    },
+    {
+        "path": "./models/747.glb",
+        "name": "Boeing 747",
+        "description": "Un Boeing 747",
+        "size": "20.4"
+    },
+    {
+        "path": "./models/burj.glb",
+        "name": "Burj Kalifa",
+        "description": "Le Burj Kalifa",
+        "size": "830"
+    },
+    {
+        "path": "./models/sauterelle.glb",
+        "name": "Sauterelle",
+        "description": "La Sauterelle",
+        "size": "0.05"
+    },
+    {
+        "path": "./models/50cent.glb",
+        "name": "50 Centimes d'euro",
+        "description": "Une pièce de 50 Centimes d'euro",
+        "size": "0.024"
     }
 ]
