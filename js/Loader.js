@@ -1,9 +1,23 @@
 import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
 import { OBJLoader } from '../three/examples/jsm/loaders/OBJLoader.js';
-import { TextureLoader, SpriteMaterial, Sprite, Box3, Vector3 } from '../three/build/three.module.js';
+import { TextureLoader, SpriteMaterial, Sprite, Box3, Vector3, LoadingManager } from '../three/build/three.module.js';
 
-const gltfLoader = new GLTFLoader();
-const objLoader = new OBJLoader();
+const manager = new LoadingManager();
+const gltfLoader = new GLTFLoader(manager);
+const objLoader = new OBJLoader(manager);
+const progressDiv = document.getElementById("progressDiv");
+const loadBar = document.getElementById("loadBar");
+manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+
+	console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    loadBar.value = itemsLoaded / itemsTotal*100;
+
+};
+
+manager.onLoad = function(){
+    progressDiv.style.opacity = "0"
+    progressDiv.style.visibility = "hidden"
+}
 
 export async function LoadModel(scene, path, size, listModel, actualPos){
     let splited = path.split(".")
@@ -33,10 +47,7 @@ export async function LoadModel(scene, path, size, listModel, actualPos){
 export async function LoadModelGLTF(scene, path, size, listModel, actualPos){
     await gltfLoader.loadAsync(
         // resource URL
-        path,
-        function ( xhr ) {
-             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        }            
+        path          
     ).then(
         function ( gltf ) {
             listModel.push(gltf.scene)
@@ -79,10 +90,7 @@ export async function LoadModelGLTF(scene, path, size, listModel, actualPos){
 export async function LoadModelOBJ(scene, path, size, listModel, actualPos){
     await objLoader.loadAsync(
         // resource URL
-        path,
-        function ( xhr ) {
-             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        }            
+        path           
     ).then(
         function ( obj ) {
             listModel.push(obj)
@@ -116,10 +124,11 @@ export async function LoadModelOBJ(scene, path, size, listModel, actualPos){
 }
 
 export async function LoadImage(scene, path, size, listModel, actualPos){
-    const map = new TextureLoader().load( path );
+    const map = new TextureLoader(manager).load( path );
     const material = new SpriteMaterial( { map: map } );
     const sprite = new Sprite( material );
     listModel.push(sprite);
+
     var box = new Box3().setFromObject( sprite );
     var bbSize = new Vector3();
     console.log(box.getSize(bbSize));

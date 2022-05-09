@@ -2,7 +2,7 @@
     {
         "path": "./models/ballon.glb",
         "name": "Ballon",
-        "description": "Ballon de football",
+        "description": "Le ballon de football, normalisé par la Fédération internationale de football association (FIFA), a 32 faces : c'est un polyèdre appelé icosaèdre tronqué. ",
         "size": "0.30"
     },
     {
@@ -20,25 +20,25 @@
     {
         "path": "./models/bus.glb",
         "name": "Bus",
-        "description": "Le Bus",
+        "description": "Un autobus est un véhicule de transport routier de voyageurs en milieux urbain/périurbain et suburbain. C'est l'un des principaux types de véhicules employé dans les transports en commun. ",
         "size": "3.3"
     },
     {
         "path": "./models/eiffel.glb",
         "name": "Tour Eiffel",
-        "description": "Eiffel",
+        "description": "La tour Eiffel Écouter est une tour de fer puddlé de 330 mètres2 de hauteur (avec antennes) située à Paris, à l’extrémité nord-ouest du parc du Champ-de-Mars en bordure de la Seine dans le 7e arrondissement. Son adresse officielle est 5, avenue Anatole-France. ",
         "size": "300"
     },
     {
         "path": "./models/f1.glb",
         "name": "F1",
-        "description": "Vrooom",
+        "description": "Le championnat du monde de Formule 1 2022 est la 73e édition du championnat du monde de Formule 1. Ce championnat voit une révision majeure du règlement technique portant notamment sur l'évolution du design des monoplaces, désormais basé sur l'effet de sol. Retardée d'une année en raison de la pandémie de Covid-19, la nouvelle réglementation a pour objectif de réduire les perturbations aérodynamiques générées par les monoplaces (ce qui modifie considérablement leur aspect notamment au niveau du nez, des pontons, des ailerons et des roues qui passent de 13 à 18 pouces) pour permettre davantage de dépassements afin d'accroître le spectacle proposé. ",
         "size": "0.95"
     },
     {
         "path": "./models/mario.glb",
         "name": "Mario",
-        "description": "it's me Mario",
+        "description": "Mario[e] is a fictional character created by Japanese video game designer Shigeru Miyamoto. He is the title character of the video game franchise of the same name and the mascot of Japanese video game company Nintendo. Mario has appeared in over 200 video games since his creation. Depicted as a short, pudgy, Italian plumber who resides in the Mushroom Kingdom, his adventures generally center on rescuing Princess Peach from the Koopa villain Bowser. Mario has access to a variety of power-ups that give him different abilities. Mario's fraternal twin brother is Luigi. ",
         "size": "1.75"
     },
     {

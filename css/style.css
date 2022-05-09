@@ -71,13 +71,12 @@ canvas {
 }
 
 .descDisplay {
-    height: 20%;
+
     width: 100%;
     position: fixed;
     z-index: 1;
-    bottom: -250px;
-    background-color: #e8e8e8;
-    padding-top: 60px;
+    bottom: -2500px;
+    border-radius: 3% 3% 0% 0%;
     transition: bottom 0.5s ease;
     
 }
@@ -92,4 +91,14 @@ canvas {
     position: absolute;
     bottom: -250px;
     font-size: 36px;
+}
+
+#progressDiv{
+    top: 50%;
+    left: 25%;
+    width: 50%;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    transition: visibility 2s, opacity 1s linear;
 }

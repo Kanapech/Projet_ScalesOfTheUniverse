@@ -27,7 +27,6 @@ var data;
 
 let listModel = new Array();
 
-//console.log(listModel[0].object.geometry.parameters);
 var currentbox = undefined
 
 
@@ -44,7 +43,7 @@ function showDesc() {
 
 	// calculate objects intersecting the picking ray
 	const intersects = raycaster.intersectObjects( scene.children, true);
-	console.log(intersects[0])
+	//console.log(intersects[0])
 	var clickedObj = checkParentInList(intersects[0]);
 
 	if(clickedObj != undefined){
@@ -52,6 +51,7 @@ function showDesc() {
 		modelName.innerText = data[clickedObj]["name"]
 		modelDesc.innerText = data[clickedObj]["description"]
 		descDisplay.classList.add("active")
+		camera.position.y -= 5
 	}
 	else if(descDisplay.classList.contains("active")){
 		closeDesc();
@@ -59,6 +59,7 @@ function showDesc() {
 }
 
 function closeDesc() {
+	camera.position.y = 5
 	descDisplay.classList.remove("active");
 }
 
@@ -110,15 +111,16 @@ async function asyncForEach(array, callback) {
 
 async function LoadAll(data){
 	//console.log(data)
-	console.log("Loading all models");
+	//console.log("Loading all models");
 	await asyncForEach(data, async element => {
 		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
+		currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
 	});
 
 	console.log(actualPos)
-	currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
+	
 	console.log("Last : "+ currentbox.max.x)
-	console.log(listModel)
+	//console.log(listModel)
 }
 
 var slider = document.getElementById("slider");
@@ -129,9 +131,9 @@ window.addEventListener("wheel", moveSlider);
 //Slide when mouse scroll
 function moveSlider(e){
 	if (e.deltaY < 0){
-		slider.value -= 1;
+		slider.value -= 0.2;
 	}else{
-		slider.valueAsNumber += 1;
+		slider.valueAsNumber += 0.2;
 	}
 
 	slider.dispatchEvent(new Event('input'));
