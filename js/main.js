@@ -7,10 +7,12 @@ var actualPos= new Array()
 actualPos.push(0)
 var data;
 let listModel = new Array();
-var currentbox;
-var distance;
-var center = new THREE.Vector3(0,0,0);
-var size = new THREE.Vector3(0,0,0);
+var distance = new Array();
+distance.push(0);
+var center = new THREE.Vector3();
+var size = new THREE.Vector3();
+var slider = document.getElementById("slider");
+
 
 //Caméra
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 1000);
@@ -25,10 +27,13 @@ fetch("./modelList.json")
 	data = json.sort(function(a, b){
 		return a.size-b.size;
 		});
-	slider.setAttribute("max", data.length-1)
-	Loader.LoadAll(data,camera,scene,listModel,actualPos)
+	slider.setAttribute("max", data.length-1);
+	Loader.LoadAll(data,camera,scene,listModel,actualPos,center,distance);
+	
 	})
-.catch((error => {console.error(error)}))
+.catch((error => {console.error(error)}));
+
+
 
 //Raycaster pour le pointage à la souris
 const raycaster = new THREE.Raycaster();
@@ -48,6 +53,7 @@ document.body.appendChild(renderer.domElement);
 //Lumière
 const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( light );
+
 
 //const controls = new OrbitControls( camera, renderer.domElement );
 //controls.update();
@@ -113,7 +119,7 @@ async function asyncForEach(array, callback) {
 
 
 //Listeners pour le slider
-var slider = document.getElementById("slider");
+
 slider.value = 0;
 slider.addEventListener("input", moveCamera);
 window.addEventListener("wheel", moveSlider);
@@ -138,21 +144,20 @@ function moveCamera(e){
 		box1 = box1.union(box2)
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
+		distance[0] = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
 	if(target.valueAsNumber==0){
 		var box1 = new THREE.Box3().setFromObject( listModel[0])
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
+		distance[0] = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
 }
 
 const animate = function () {
 	requestAnimationFrame(animate);
-	camera.position.lerp(new THREE.Vector3(center.x,center.y,distance),0.05);
+	camera.position.lerp(new THREE.Vector3(center.x,center.y,distance[0]),0.05);
 	renderer.render(scene, camera);
-	//camera.position.x += 0.1
 };
 
 animate();
