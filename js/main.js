@@ -1,6 +1,4 @@
 import * as THREE from '../three/build/three.module.js';
-import { TrackballControls } from '../three/examples/jsm/controls/TrackballControls.js';// Scene
-import { GLTFLoader } from '../three/examples/jsm/loaders/GLTFLoader.js';
 import * as Loader from './Loader.js'
 
 const raycaster = new THREE.Raycaster();
@@ -45,7 +43,8 @@ function showDesc() {
 	raycaster.setFromCamera( pointer, camera );
 
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( listModel, true);
+	const intersects = raycaster.intersectObjects( scene.children, true);
+	console.log(intersects[0])
 	var clickedObj = checkParentInList(intersects[0]);
 
 	if(clickedObj != undefined){
@@ -98,8 +97,9 @@ fetch("./modelList.json")
 .then(json => {
 	data = json.sort(function(a, b){
 		return a.size-b.size;
-	});
-	LoadAll(data)})
+		});
+	LoadAll(data)
+	})
 .catch((error => {console.error(error)}))
 
 async function asyncForEach(array, callback) {

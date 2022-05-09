@@ -40,5 +40,17 @@
         "name": "Mario",
         "description": "it's me Mario",
         "size": "1.75"
+    },
+    {
+        "path": "./models/atom.png",
+        "name": "Atome png",
+        "description": "Hihi l'atome png",
+        "size": "0.001"
+    },
+    {
+        "path": "./models/atom.jpg",
+        "name": "Atome jpg",
+        "description": "Hihi l'atome jpg",
+        "size": "0.001"
     }
 ]
