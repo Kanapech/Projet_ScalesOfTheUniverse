@@ -7,8 +7,11 @@ const gltfLoader = new GLTFLoader(manager);
 const objLoader = new OBJLoader(manager);
 const progressDiv = document.getElementById("progressDiv");
 const loadBar = document.getElementById("loadBar");
-manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+const fakeRequestURL = '[[my-fake-request-232932929]]';
 
+manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+    console.log("nb : " + itemsLoaded)
+    console.log("nbTot: " + itemsTotal)
 	//console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
     
     loadBar.value = itemsLoaded / itemsTotal*100;
@@ -18,6 +21,30 @@ manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 manager.onLoad = function(){
     progressDiv.style.opacity = "0"
     progressDiv.style.visibility = "hidden"
+}
+
+export async function LoadAll(data,camera,scene,listModel,actualPos){
+    let currentbox;
+    let distance;
+    manager.itemStart( fakeRequestURL );
+	await asyncForEach(data, async element => {
+		await LoadModel(scene, element.path, element.size, listModel, actualPos);
+		currentbox = new Box3().setFromObject( listModel[listModel.length - 1])
+	});
+	let size = new Vector3()
+	currentbox.getSize(size)
+
+	distance = Math.abs( size.y / Math.sin( camera.fov * ( Math.PI / 180 ) / 2 ) ) + size.z;
+	camera.far = distance;
+	camera.updateProjectionMatrix();
+	console.log(camera.far);
+    manager.itemEnd( fakeRequestURL );
+}
+
+async function asyncForEach(array, callback) {
+	for (let index = 0; index < array.length; index++) {
+		await callback(array[index], index, array);
+	}
 }
 
 export async function LoadModel(scene, path, size, listModel, actualPos){
@@ -46,6 +73,7 @@ export async function LoadModel(scene, path, size, listModel, actualPos){
 }
 
 export async function LoadModelGLTF(scene, path, size, listModel, actualPos){
+
     await gltfLoader.loadAsync(
         // resource URL
         path          
@@ -87,6 +115,8 @@ export async function LoadModelGLTF(scene, path, size, listModel, actualPos){
             console.log(error)
         }
     );
+
+
 }
 
 export async function LoadModelOBJ(scene, path, size, listModel, actualPos){

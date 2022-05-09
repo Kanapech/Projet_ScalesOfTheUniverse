@@ -25,7 +25,7 @@ fetch("./modelList.json")
 		return a.size-b.size;
 		});
 	slider.setAttribute("max", data.length-1)
-	LoadAll(data)
+	Loader.LoadAll(data,camera,scene,listModel,actualPos)
 	})
 .catch((error => {console.error(error)}))
 
@@ -110,26 +110,6 @@ async function asyncForEach(array, callback) {
 	}
 }
 
-async function LoadAll(data){
-	await asyncForEach(data, async element => {
-		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
-		/*const box = new THREE.BoxHelper( listModel[listModel.length - 1], 0xffff00 );
-		scene.add( box );*/
-	});
-	currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
-
-	//Initialise la caméra centrée sur l'objet 0
-	var box0 = new THREE.Box3().setFromObject( listModel[0] )
-	box0.getSize(size)
-	camera.position.set(box0.getCenter(new THREE.Vector3).x, 
-		box0.getCenter(new THREE.Vector3).y, 
-		Math.abs( size.y / Math.sin( fov / 2 ) ))
-	currentbox.getSize(size)
-	distance = Math.abs( size.y / Math.sin( fov / 2 ) );
-	camera.far = distance;
-	camera.updateProjectionMatrix();
-	console.log(camera.far);
-}
 
 //Listeners pour le slider
 var slider = document.getElementById("slider");
