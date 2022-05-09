@@ -39,7 +39,7 @@
         "path": "./models/hubble.obj",
         "name": "Hubble Space Satellite",
         "description": "Le satellite hubble",
-        "size": "0.01"
+        "size": "13.2"
     },
     {
         "path": "./models/avion.obj",
