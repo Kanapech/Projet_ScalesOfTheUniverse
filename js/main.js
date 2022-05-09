@@ -2,16 +2,18 @@ import * as THREE from '../three/build/three.module.js';
 import * as Loader from './Loader.js'
 import {OrbitControls} from '../three/examples/jsm/controls/OrbitControls.js'
 
+//Variables
 var actualPos= new Array()
 actualPos.push(0)
 var data;
 let listModel = new Array();
 var currentbox;
-var delta;
 var distance;
+var size = new THREE.Vector3()
+
+//Caméra
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 1000);
 var fov = camera.fov * ( Math.PI / 180 ); 
-
 
 //Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
 fetch("./modelList.json")
@@ -27,30 +29,27 @@ fetch("./modelList.json")
 	})
 .catch((error => {console.error(error)}))
 
+//Raycaster pour le pointage à la souris
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
+//Création de la scène
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(1,0.7,0.7)
 
-
-scene.add(camera)
-const renderer = new THREE.WebGLRenderer();
+//Renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+//Affichage du renderer dans le HTML
 document.body.appendChild(renderer.domElement);
 
+//Lumière
 const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( light );
 
 //const controls = new OrbitControls( camera, renderer.domElement );
-
-
 //controls.update();
-
-
-camera.position.z = 30;
-camera.position.y = 5;
 
 // Model Description
 function showDesc() {
@@ -60,7 +59,7 @@ function showDesc() {
 	var descCloseBtn = document.getElementById("descClosebtn");
 	descCloseBtn.onclick = closeDesc;
 
-	// update the picking ray with the camera and pointer position
+	// Mets à jour le rayon à partir de la caméro et de la souris
 	raycaster.setFromCamera( pointer, camera );
 
 	// calculate objects intersecting the picking ray
@@ -72,7 +71,6 @@ function showDesc() {
 		modelName.innerText = data[clickedObj]["name"]
 		modelDesc.innerText = data[clickedObj]["description"]
 		descDisplay.classList.add("active")
-		//camera.position.y -= 5
 	}
 	else if(descDisplay.classList.contains("active")){
 		closeDesc();
@@ -80,11 +78,10 @@ function showDesc() {
 }
 
 function closeDesc() {
-	//camera.position.y += 5
 	descDisplay.classList.remove("active");
 }
 
-//Return index of clicked model in models list
+//Retourne l'index de l'objet cliqué dans la liste des modèles
 function checkParentInList(objchild){
 	if(objchild === undefined)
 		return
@@ -97,18 +94,15 @@ function checkParentInList(objchild){
 }
 
 function onPointerMove( event ) {
-
-	// calculate pointer position in normalized device coordinates
-	// (-1 to +1) for both components
-
+	// Calcule la position du pointeur en coordonnées normalisées device (-1 ou 1)
 	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
 
-
+//Listeners de la souris
 window.addEventListener( 'pointermove', onPointerMove );
 window.addEventListener('click', showDesc)
-//window.requestAnimationFrame(render);
+
 
 async function asyncForEach(array, callback) {
 	for (let index = 0; index < array.length; index++) {
@@ -119,49 +113,37 @@ async function asyncForEach(array, callback) {
 async function LoadAll(data){
 	await asyncForEach(data, async element => {
 		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
-		currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
-		const box = new THREE.BoxHelper( listModel[listModel.length - 1], 0xffff00 );
-		scene.add( box );
+		/*const box = new THREE.BoxHelper( listModel[listModel.length - 1], 0xffff00 );
+		scene.add( box );*/
 	});
-	var size = new THREE.Vector3()
-	currentbox.getSize(size)
+	currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
 
-	distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+	//Initialise la caméra centrée sur l'objet 0
+	var box0 = new THREE.Box3().setFromObject( listModel[0] )
+	box0.getSize(size)
+	camera.position.set(box0.getCenter(new THREE.Vector3).x, 
+		box0.getCenter(new THREE.Vector3).y, 
+		Math.abs( size.y / Math.sin( fov / 2 ) ))
+	currentbox.getSize(size)
+	distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 	camera.far = distance;
 	camera.updateProjectionMatrix();
 	console.log(camera.far);
 }
 
-/*function initCamera(){
-	var leftX = new THREE.Box3().setFromObject(listModel[0]).max.x
-	var rightX = new THREE.Box3().setFromObject(listModel[1]).max.x
-	camera.position.x = (rightX + leftX)/2
-
-	var leftY = new THREE.Box3().setFromObject(listModel[0]).max.y
-	var rightY = new THREE.Box3().setFromObject(listModel[1]).max.y
-	camera.position.y = rightY
-
-	var leftZ = new THREE.Box3().setFromObject(listModel[0]).max.z
-	var rightZ = new THREE.Box3().setFromObject(listModel[1]).max.z
-	camera.position.z = Math.abs(leftZ-rightZ)
-
-	camera.lookAt(new THREE.Box3().setFromObject(listModel[0]).getCenter(new THREE.Vector3()))
-	console.log(camera.position)
-}*/
-
+//Listeners pour le slider
 var slider = document.getElementById("slider");
-slider.value = 1;
+slider.value = 0;
 slider.addEventListener("input", moveCamera);
 window.addEventListener("wheel", moveSlider);
 
-//Slide when mouse scroll
+//Slide lors du scroll
 function moveSlider(e){
 	if (e.deltaY < 0){
 		slider.value -= 1;
 	}else{
 		slider.valueAsNumber += 1;
 	}
-
 	slider.dispatchEvent(new Event('input'));
 }
 
@@ -175,13 +157,13 @@ function moveCamera(e){
 		box1 = box1.union(box2)
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
 	if(target.valueAsNumber==0){
 		var box1 = new THREE.Box3().setFromObject( listModel[0])
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
 	camera.position.x = center.x
 	camera.position.y = center.y

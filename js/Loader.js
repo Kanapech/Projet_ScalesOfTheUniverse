@@ -10,6 +10,7 @@ const loadBar = document.getElementById("loadBar");
 manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
 
 	//console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    
     loadBar.value = itemsLoaded / itemsTotal*100;
 
 };
