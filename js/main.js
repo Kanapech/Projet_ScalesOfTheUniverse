@@ -1,11 +1,15 @@
 import * as THREE from '../three/build/three.module.js';
 import * as Loader from './Loader.js'
+import {OrbitControls} from '../three/examples/jsm/controls/OrbitControls.js'
 
 var actualPos= new Array()
 actualPos.push(0)
 var data;
 let listModel = new Array();
 var currentbox;
+var delta;
+var distance;
+var fov = camera.fov * ( Math.PI / 180 ); 
 
 //Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
 fetch("./modelList.json")
@@ -37,11 +41,14 @@ document.body.appendChild(renderer.domElement);
 const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( light );
 
-/*camera.position.z = 30;
-camera.position.y = 5;*/
+//const controls = new OrbitControls( camera, renderer.domElement );
 
 
+//controls.update();
 
+
+camera.position.z = 30;
+camera.position.y = 5;
 
 // Model Description
 function showDesc() {
@@ -121,6 +128,7 @@ async function LoadAll(data){
 	console.log(actualPos)
 	console.log("Last : "+ currentbox.max.x)
 	console.log("list length :"+listModel.length)
+	distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 
 	//initCamera()
 	//console.log(listModel)
@@ -160,23 +168,35 @@ function moveSlider(e){
 }
 
 function moveCamera(e){
-	console.log(camera.position)
+	var center = new THREE.Vector3();
+	var size = new THREE.Vector3();
 	var target = (e.target) ? e.target : e.srcElement;
-	console.log(target.value)
+	console.log(target.value);
+	if(e.target!=0){
+		var box1 = new THREE.Box3().setFromObject( listModel[target.value])
+		console.log(box1)
+		var box2 = new THREE.Box3().setFromObject( listModel[target.value-1])
+		console.log(box2)
+		box1 = box1.union(box2)
+		console.log(box1)
+		box1.getSize(size);
+		box1.getCenter(center);
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+		console.log(distance)
+	}
+	if(e.target==0){
+		var box1 = new THREE.Box3().setFromObject( listModel[0])
+		/*console.log(box1)
+		box1.getSize(size);
+		box1.getCenter(center);
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
 
-	var leftX = new THREE.Box3().setFromObject(listModel[target.valueAsNumber-1]).max.x
-	var rightX = new THREE.Box3().setFromObject(listModel[target.value]).getCenter(new THREE.Vector3()).x
-	camera.position.x = rightX
-
-	var leftY = new THREE.Box3().setFromObject(listModel[target.valueAsNumber-1]).max.y
-	var rightY = new THREE.Box3().setFromObject(listModel[target.value]).max.y
-	camera.position.y = rightY
-
-	var leftZ = new THREE.Box3().setFromObject(listModel[target.valueAsNumber-1]).max.z
-	var rightZ = new THREE.Box3().setFromObject(listModel[target.value]).max.z
-	camera.position.z = Math.max(leftZ,rightZ)*11
-
-	camera.lookAt(new THREE.Box3().setFromObject(listModel[target.valueAsNumber-1]).getCenter(new THREE.Vector3()))
+		console.log(distance)*/
+	}
+	camera.position.x = center.x
+	camera.position.y = center.y
+	camera.position.z = distance
+	//console.log(camera.position.z)
 }
 
 const animate = function () {
