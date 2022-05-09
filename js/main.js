@@ -1,17 +1,21 @@
 import * as THREE from '../three/build/three.module.js';
 import * as Loader from './Loader.js'
 import {OrbitControls} from '../three/examples/jsm/controls/OrbitControls.js'
-import { Reflector } from '../three/examples/jsm/objects/Reflector.js';
 
 //Variables
 var actualPos= new Array()
 actualPos.push(0)
 var data;
 let listModel = new Array();
-var distance;
+var distance = new Array();
+distance.push(0);
+var center = new THREE.Vector3();
+var size = new THREE.Vector3();
+var slider = document.getElementById("slider");
+
 
 //Caméra
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 1000);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 2000);
 var fov = camera.fov * ( Math.PI / 180 ); 
 
 //Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
@@ -23,10 +27,13 @@ fetch("./modelList.json")
 	data = json.sort(function(a, b){
 		return a.size-b.size;
 		});
-	slider.setAttribute("max", data.length-1)
-	Loader.LoadAll(data,camera,scene,listModel,actualPos)
+	slider.setAttribute("max", data.length-1);
+	Loader.LoadAll(data,camera,scene,listModel,actualPos,center,distance);
+	
 	})
-.catch((error => {console.error(error)}))
+.catch((error => {console.error(error)}));
+
+
 
 //Raycaster pour le pointage à la souris
 const raycaster = new THREE.Raycaster();
@@ -55,7 +62,7 @@ camera.add( light );
 
 //Plan/Sol
 const geometry = new THREE.PlaneGeometry( 2000, 2000, 9, 9 );
-var material = new THREE.MeshLambertMaterial();
+var material = new THREE.MeshLambertMaterial(0xffffff);
 const plane = new THREE.Mesh(geometry, material)
 plane.rotation.x = - Math.PI / 2
 plane.translateX(500)
@@ -125,7 +132,7 @@ async function asyncForEach(array, callback) {
 
 
 //Listeners pour le slider
-var slider = document.getElementById("slider");
+
 slider.value = 0;
 slider.addEventListener("input", moveCamera);
 window.addEventListener("wheel", moveSlider);
@@ -141,8 +148,8 @@ function moveSlider(e){
 }
 
 function moveCamera(e){
-	var center = new THREE.Vector3();
-	var size = new THREE.Vector3();
+	//var center = new THREE.Vector3();
+	//var size = new THREE.Vector3();
 	var target = (e.target) ? e.target : e.srcElement;
 	if(target.valueAsNumber!=0){
 		var box1 = new THREE.Box3().setFromObject( listModel[target.value])
@@ -150,23 +157,20 @@ function moveCamera(e){
 		box1 = box1.union(box2)
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
+		distance[0] = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
 	if(target.valueAsNumber==0){
 		var box1 = new THREE.Box3().setFromObject( listModel[0])
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
+		distance[0] = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
-	camera.position.x = center.x
-	camera.position.y = center.y
-	camera.position.z = distance
 }
 
 const animate = function () {
 	requestAnimationFrame(animate);
+	camera.position.lerp(new THREE.Vector3(center.x,center.y,distance[0]),0.05);
 	renderer.render(scene, camera);
-	//camera.position.x += 0.1
 };
 
 animate();
