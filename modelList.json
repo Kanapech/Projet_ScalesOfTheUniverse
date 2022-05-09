@@ -39,10 +39,10 @@
         "path": "./models/hubble.obj",
         "name": "Hubble Space Satellite",
         "description": "Le satellite hubble",
-        "size": "13.2"
+        "size": "0.01"
     },
     {
-        "path": "./models/747.glb",
+        "path": "./models/avion.obj",
         "name": "Boeing 747",
         "description": "Un Boeing 747",
         "size": "20.4"

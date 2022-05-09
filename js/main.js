@@ -23,7 +23,7 @@ fetch("./modelList.json")
 		return a.size-b.size;
 		});
 	slider.setAttribute("max", data.length-1)
-	LoadAll(data)
+	Loader.LoadAll(data,camera,scene,listModel,actualPos)
 	})
 .catch((error => {console.error(error)}))
 
@@ -116,21 +116,7 @@ async function asyncForEach(array, callback) {
 	}
 }
 
-async function LoadAll(data){
-	await asyncForEach(data, async element => {
-		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
-		currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
-		const box = new THREE.BoxHelper( listModel[listModel.length - 1], 0xffff00 );
-		scene.add( box );
-	});
-	var size = new THREE.Vector3()
-	currentbox.getSize(size)
 
-	distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
-	camera.far = distance;
-	camera.updateProjectionMatrix();
-	console.log(camera.far);
-}
 
 /*function initCamera(){
 	var leftX = new THREE.Box3().setFromObject(listModel[0]).max.x
@@ -175,13 +161,13 @@ function moveCamera(e){
 		box1 = box1.union(box2)
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
 	if(target.valueAsNumber==0){
 		var box1 = new THREE.Box3().setFromObject( listModel[0])
 		box1.getSize(size);
 		box1.getCenter(center);
-		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) );
 	}
 	camera.position.x = center.x
 	camera.position.y = center.y
