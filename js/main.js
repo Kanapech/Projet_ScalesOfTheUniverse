@@ -1,6 +1,7 @@
 import * as THREE from '../three/build/three.module.js';
 import * as Loader from './Loader.js'
 import {OrbitControls} from '../three/examples/jsm/controls/OrbitControls.js'
+import { Reflector } from '../three/examples/jsm/objects/Reflector.js';
 
 //Variables
 var actualPos= new Array()
@@ -33,18 +34,32 @@ const pointer = new THREE.Vector2();
 
 //Création de la scène
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(1,0.7,0.7)
+scene.background = new THREE.Color(0.6, 0.6, 0.6)
 
 //Renderer
-const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, gammaOutput: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 //Affichage du renderer dans le HTML
 document.body.appendChild(renderer.domElement);
 
 //Lumière
-const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+scene.add( new THREE.AmbientLight( 0xffffff, 0.1 ) );
+var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1);
+light.position.set(0, 300, 0)
 scene.add( light );
+
+light = new THREE.PointLight( 0xffffff, 1 );
+light.position.set( 75, 300, -75 );
+camera.add( light );
+
+//Plan/Sol
+const geometry = new THREE.PlaneGeometry( 2000, 2000, 9, 9 );
+var material = new THREE.MeshLambertMaterial();
+const plane = new THREE.Mesh(geometry, material)
+plane.rotation.x = - Math.PI / 2
+plane.translateX(500)
+scene.add( plane );
 
 //const controls = new OrbitControls( camera, renderer.domElement );
 //controls.update();
@@ -66,7 +81,7 @@ function showDesc() {
 
 	if(clickedObj != undefined){
 		closeDesc();
-		modelName.innerText = data[clickedObj]["name"]
+		modelName.innerText = data[clickedObj]["name"] + " (" + data[clickedObj]["size"] + "m)"
 		modelDesc.innerText = data[clickedObj]["description"]
 		descDisplay.classList.add("active")
 	}

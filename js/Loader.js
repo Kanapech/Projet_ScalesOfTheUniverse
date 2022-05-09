@@ -44,7 +44,6 @@ export async function LoadAll(data,camera,scene,listModel,actualPos){
 	camera.far = distance;
 	camera.updateProjectionMatrix();
 	console.log(camera.far);
-
 }
 
 async function asyncForEach(array, callback) {
@@ -105,6 +104,16 @@ export async function LoadModelGLTF(scene, path, size, listModel, actualPos){
             (gltf.scene).translateZ(box.min.z);
             (gltf.scene).translateX(actualPos[0]+ Math.abs(box.min.x))
 
+            gltf.scene.traverse( function( node ) {
+
+                if ( node.isMesh ) { 
+                    node.castShadow = true;
+                    node.receiveShadow = true;
+                    node.geometry.computeVertexNormals();
+                }
+        
+            } );
+
             scene.add(gltf.scene)            
            
             actualPos[0] += Math.abs(box.max.x-box.min.x)
@@ -150,6 +159,8 @@ export async function LoadModelOBJ(scene, path, size, listModel, actualPos){
             (obj).translateZ(box.min.z);
             (obj).translateX(actualPos[0]+ Math.abs(box.min.x))
 
+            obj.castShadow = true;
+            obj.receiveShadow = true;
             scene.add(obj)
             
             actualPos[0] += Math.abs(box.max.x-box.min.x)
@@ -182,6 +193,8 @@ export async function LoadImage(scene, path, size, listModel, actualPos){
     box = new Box3().setFromObject( sprite );
     console.log(box.getSize(bbSize));
 
+    sprite.castShadow = true;
+    sprite.receiveShadow = true;
     scene.add( sprite );
 
     (sprite).translateY(-box.min.y);
