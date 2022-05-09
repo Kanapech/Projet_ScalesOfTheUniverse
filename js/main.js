@@ -12,6 +12,7 @@ var distance;
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 1000);
 var fov = camera.fov * ( Math.PI / 180 ); 
 
+
 //Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
 fetch("./modelList.json")
 .then(response => {
@@ -123,11 +124,9 @@ async function LoadAll(data){
 		scene.add( box );
 	});
 
-	currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
-	var size = new THREE.Vector3();
-	currentbox.getSize(size);
-	
-	document.getElementById("slider").setAttribute("max", listModel.length - 1);
+	console.log(actualPos)
+	console.log("Last : "+ currentbox.max.x)
+	console.log("list length :"+listModel.length)
 
 	distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
 	camera.far = distance;
