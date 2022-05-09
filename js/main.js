@@ -1,5 +1,6 @@
 import * as THREE from '../three/build/three.module.js';
 import * as Loader from './Loader.js'
+import {OrbitControls} from '../three/examples/jsm/controls/OrbitControls.js'
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -7,7 +8,7 @@ const pointer = new THREE.Vector2();
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(1,0.7,0.7)
 
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.001, 1000);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -16,6 +17,12 @@ document.body.appendChild(renderer.domElement);
 
 const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( light );
+
+//const controls = new OrbitControls( camera, renderer.domElement );
+
+
+//controls.update();
+
 
 camera.position.z = 30;
 camera.position.y = 5;
@@ -27,8 +34,12 @@ var data;
 
 let listModel = new Array();
 
+
 //console.log(listModel[0].object.geometry.parameters);
 var currentbox = undefined
+var delta;
+var distance;
+var fov = camera.fov * ( Math.PI / 180 ); 
 
 
 // Model Description
@@ -114,11 +125,13 @@ async function LoadAll(data){
 	await asyncForEach(data, async element => {
 		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
 	});
-
-	console.log(actualPos)
 	currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
-	console.log("Last : "+ currentbox.max.x)
-	console.log(listModel)
+	var size = new THREE.Vector3();
+	currentbox.getSize(size);
+	
+	distance = Math.abs( size.y / Math.sin( fov / 2 ) );
+	console.log("Nb Model : "+listModel.length)
+	document.getElementById("slider").setAttribute("max", listModel.length - 1);
 }
 
 var slider = document.getElementById("slider");
@@ -138,8 +151,38 @@ function moveSlider(e){
 }
 
 function moveCamera(e){
+	var center = new THREE.Vector3();
+	var size = new THREE.Vector3();
 	var target = (e.target) ? e.target : e.srcElement;
-	camera.position.x = (target.value/10) * currentbox.max.x
+	console.log(target.value);
+	if(e.target!=0){
+		var box1 = new THREE.Box3().setFromObject( listModel[target.value])
+		console.log(box1)
+		var box2 = new THREE.Box3().setFromObject( listModel[target.value-1])
+		console.log(box2)
+		box1 = box1.union(box2)
+		console.log(box1)
+		box1.getSize(size);
+		box1.getCenter(center);
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+		console.log(distance)
+	}
+	if(e.target==0 && listModel.length>=2){
+		var box1 = new THREE.Box3().setFromObject( listModel[0])
+		console.log(box1)
+		var box2 = new THREE.Box3().setFromObject( listModel[1])
+		console.log(box2)
+		box1 = box1.union(box2)
+		console.log(box1)
+		box1.getSize(size);
+		box1.getCenter(center);
+		distance = Math.abs( size.y / Math.sin( fov / 2 ) ) + size.z;
+		console.log(distance)
+	}
+	camera.position.x = center.x
+	camera.position.y = center.y
+	camera.position.z = distance
+	//console.log(camera.position.z)
 }
 
 const animate = function () {

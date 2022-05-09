@@ -56,11 +56,12 @@ export async function LoadModelGLTF(scene, path, size, listModel, actualPos){
             console.log(box.getSize(bbSize));
 
             (gltf.scene).translateY(-box.min.y);
+            (gltf.scene).translateZ(box.min.z);
             (gltf.scene).translateX(actualPos[0]+ Math.abs(box.min.x))
 
             scene.add(gltf.scene)            
            
-            actualPos[0] += Math.abs(box.max.x-box.min.x) + 1
+            actualPos[0] += Math.abs(box.max.x-box.min.x)
                 
             //gltf.animations; // Array<THREE.AnimationClip>
             gltf.scene; // THREE.Group
@@ -101,11 +102,12 @@ export async function LoadModelOBJ(scene, path, size, listModel, actualPos){
             console.log(box.getSize(bbSize));
 
             (obj).translateY(-box.min.y);
+            (obj).translateZ(box.min.z);
             (obj).translateX(actualPos[0]+ Math.abs(box.min.x))
 
             scene.add(obj)
             
-            actualPos[0] += Math.abs(box.max.x-box.min.x) + 1
+            actualPos[0] += Math.abs(box.max.x-box.min.x)
         }
     ).catch(
         function ( error ) {
@@ -137,7 +139,8 @@ export async function LoadImage(scene, path, size, listModel, actualPos){
     scene.add( sprite );
 
     (sprite).translateY(-box.min.y);
+    (sprite).translateZ(box.min.z);
     (sprite).translateX(actualPos[0]+ Math.abs(box.min.x))
-    actualPos[0] += Math.abs(box.max.x-box.min.x) + 1
+    actualPos[0] += Math.abs(box.max.x-box.min.x)
     console.log(box)
 }
