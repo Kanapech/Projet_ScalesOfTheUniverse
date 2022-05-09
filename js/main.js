@@ -9,7 +9,7 @@ const pointer = new THREE.Vector2();
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(1,0.7,0.7)
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -19,25 +19,18 @@ document.body.appendChild(renderer.domElement);
 const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( light );
 
-camera.position.z = 10;
+camera.position.z = 20;
 camera.position.y = 1;
 
 var actualPos= new Array()
 actualPos.push(0)
-var nbModel = 0;
 
-let measure = new THREE.Vector3();
-
-var boundingBox;
-var size;
 var data;
 
 let listModel = new Array();
-const gltfLoader = new GLTFLoader();
 
 //console.log(listModel[0].object.geometry.parameters);
-var lastbox = undefined
-
+var currentbox = undefined
 
 
 // Model Description
@@ -97,13 +90,15 @@ window.addEventListener('click', showDesc)
 //window.requestAnimationFrame(render);
 
 
-//Charge le fichier json et appelle loadAll pour charger les modèles
+//Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
 fetch("./modelList.json")
 .then(response => {
    return response.json();
 })
 .then(json => {
-	data = json
+	data = json.sort(function(a, b){
+		return a.size-b.size;
+	});
 	LoadAll(data)})
 .catch((error => {console.error(error)}))
 
@@ -115,18 +110,15 @@ async function asyncForEach(array, callback) {
 
 async function LoadAll(data){
 	//console.log(data)
-	await asyncForEach(data, async element => {
-		//await LoadModel(element.path, listModel);
-		await Loader.LoadModel(scene,element.path, listModel,actualPos);
-		//await Loader.LoadModelGLTF(scene,element.path, listModel,actualPos);
-	});
-	//await Loader.LoadModelOBJ(scene,"./models/Mario.obj",listModel,actualPos)
 	console.log("Loading all models");
+	await asyncForEach(data, async element => {
+		await Loader.LoadModel(scene, element.path, element.size, listModel, actualPos);
+	});
+
 	console.log(actualPos)
-	lastbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1] );
-	console.log("Last : "+lastbox.max.x)
+	currentbox = new THREE.Box3().setFromObject( listModel[listModel.length - 1])
+	console.log("Last : "+ currentbox.max.x)
 	console.log(listModel)
-	console.log(nbModel)
 }
 
 var slider = document.getElementById("slider");
@@ -134,6 +126,7 @@ slider.value = 0;
 slider.addEventListener("input", moveCamera);
 window.addEventListener("wheel", moveSlider);
 
+//Slide when mouse scroll
 function moveSlider(e){
 	if (e.deltaY < 0){
 		slider.value -= 1;
@@ -146,21 +139,17 @@ function moveSlider(e){
 
 function moveCamera(e){
 	var target = (e.target) ? e.target : e.srcElement;
-	camera.position.x = (target.value/10) * lastbox.max.x
+	camera.position.x = (target.value/10) * currentbox.max.x
 }
 
 const animate = function () {
-
 	requestAnimationFrame(animate);
-	//cube.rotation.x += 0.01;
-	//cube.rotation.y += 0.01;
-	//bus.rotation.y += 0.001;
-
 	renderer.render(scene, camera);
 };
 
 animate();
 
+//Auto resize
 window.addEventListener('resize', () => {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
