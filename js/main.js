@@ -56,8 +56,7 @@ var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1);
 light.position.set(0, 300, 0)
 scene.add( light );
 
-light = new THREE.PointLight( 0xffffff, 1 );
-light.position.set( 75, 300, -75 );
+light = new THREE.PointLight( 0xffffff, 3 );
 camera.add( light );
 
 //Plan/Sol

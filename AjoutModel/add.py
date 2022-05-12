@@ -5,7 +5,7 @@ import sys
 from tkinter import filedialog as fd
 from tkinter import ttk
 import tkinter as tk
-from unicodedata import name
+import os
 
 def modelSelect():
     filename = fd.askopenfilename(title='Choississez un fichier',
@@ -19,7 +19,7 @@ def writeToJson():
     description = e2.get()
     size = e3.get()
     dict = { 
-        "path" : file,
+        "path" : os.path.relpath(file),
         "name" : name,
         "description" : description,
         "size" : size
@@ -28,8 +28,11 @@ def writeToJson():
     
     
     if(file != 'Please choose a file' and file and name and description and float(size)):
-        with open('../modelList.json', 'a') as json_file:
-            json.dump(dict, json_file)
+        with open('./modelList.json', 'r') as json_file:
+            listObj = json.load(json_file)
+            listObj.append(dict)
+        with open('./modelList.json', 'w') as json_file:    
+            json.dump(listObj, json_file)
             json_file.flush()
             json_file.close()
         l2.config(text= "Succes !")
