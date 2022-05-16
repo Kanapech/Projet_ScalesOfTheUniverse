@@ -28,10 +28,10 @@ def writeToJson():
     
     
     if(file != 'Please choose a file' and file and name and description and float(size)):
-        with open('./modelList.json', 'r') as json_file:
+        with open('../modelList.json', 'r') as json_file:
             listObj = json.load(json_file)
             listObj.append(dict)
-        with open('./modelList.json', 'w') as json_file:    
+        with open('../modelList.json', 'w') as json_file:    
             json.dump(listObj, json_file)
             json_file.flush()
             json_file.close()
