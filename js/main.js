@@ -88,7 +88,6 @@ else{
 
 // Model Description
 function showDesc(event) {
-	
 	var descDisplay = document.getElementById("descDisplay");
 	var modelName = document.getElementById("modelName");
 	var modelDesc = document.getElementById("modelDesc");
