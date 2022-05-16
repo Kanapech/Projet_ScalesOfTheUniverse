@@ -1,13 +1,40 @@
 var sidenav = document.getElementById("addmenu");
 var openBtn = document.getElementById("addbtn");
 var closeBtn = document.getElementById("closebtn");
+
 var inputModel = document.getElementById("path");
 var inputFileName = document.getElementById("inputFilename");
+
+var loadJSONButton = document.getElementById("loadJSONButton");
+var inputJSON = document.getElementById('newFileInput');
 
 inputModel.addEventListener( 'change', showFilename );
 sidenav.addEventListener('click', function (e) {e.stopPropagation();}); //Empêche la propagation du clic à la scène
 openBtn.addEventListener( 'click', openNav );
 closeBtn.addEventListener( 'click', closeNav );
+inputJSON.addEventListener('change', loadJSON);
+
+function loadFromJSON(e){
+  var input = document.getElementById('newFileInput');
+  input.click();
+
+}
+
+function loadJSON(event){
+  event.preventDefault();
+  var input = event.srcElement;
+
+  if (!input.value.length) return;
+
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var data = JSON.parse(e.target.result);
+    window.localStorage.setItem("modelList", JSON.stringify(data))
+    //console.log(JSON.stringify(data));
+  }
+  reader.readAsText(input.files[0])
+  location.reload();
+}
 
 function showFilename(event){
   var input = event.srcElement;

@@ -59,7 +59,8 @@
             <div>
                 <a href="modif.html">Retirer/Modifier des objets</a>
                 <button class="button is-small is-danger" onclick="defaultScene(event)">Scène par défaut</button>
-                <button  class="button is-small is-warning" onclick="loadFromJSON()">Charger à partir d'un fichier JSON</button>
+                <input id="newFileInput" type="file" style="display:none;" accept=".json"/>
+                <button class="button is-small is-warning" id="loadJSONButton" onclick="loadFromJSON(event)">Charger à partir d'un fichier JSON</button>
             </div>
         </div>
 
