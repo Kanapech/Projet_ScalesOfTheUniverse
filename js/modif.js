@@ -1,6 +1,6 @@
 var data = JSON.parse(window.localStorage.getItem("modelList"));
 var modifTable = document.getElementById("modifBody");
-for(let i = 0; i<data.length-1; i++){
+for(let i = 0; i<data.length; i++){
     var tr = document.createElement("tr");
     tr.innerHTML = `<th>`+ i +`</th>
                 <td><strong>`+ data[i].name+`</strong></td>

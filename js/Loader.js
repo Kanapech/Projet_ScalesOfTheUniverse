@@ -35,8 +35,8 @@ export async function LoadAll(data,camera,scene,listModel,actualPos,center,dista
 	box0.getSize(size);
     distance2 = Math.abs( size.y / Math.sin( camera.fov * ( Math.PI / 180 ) / 2) )
 	camera.position.set(box0.getCenter(new Vector3).x, 
-	box0.getCenter(new Vector3).y, 
-	distance2)
+        box0.getCenter(new Vector3).y, 
+        distance2)
     distance[0]=distance2;
 
 	currentbox.getSize(size)

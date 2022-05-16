@@ -78,9 +78,12 @@ if(window.localStorage.getItem("modelList") == undefined){
 	.catch((error => {
 		console.error(error)
 	}));
+	console.log("load from json");
 }
 else{
+	console.log("load from localstorage");
 	data = JSON.parse(window.localStorage.getItem("modelList"));
+	data = data.sort(function(a, b){ return a.size-b.size; });
 	slider.setAttribute("max", data.length-1);
 	Loader.LoadAll(data,camera,scene,listModel,actualPos,center,distance);
 	console.log(data);
@@ -175,17 +178,22 @@ function moveCamera(e){
 	}
 }
 
-const animate = function () {
+function animate() {
 	requestAnimationFrame(animate);
 	camera.position.lerp(new THREE.Vector3(center.x,center.y,distance[0]),0.05);
 	renderer.render(scene, camera);
-};
+}
 
 animate();
+
+function render() {
+	renderer.render( scene, camera );
+}
 
 //Auto resize
 window.addEventListener('resize', () => {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize(window.innerWidth, window.innerHeight);
+	render();
 })

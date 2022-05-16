@@ -58,9 +58,9 @@
             
             <div id="options">
                 <a href="modif.html">Retirer/Modifier des objets</a>
-                <button class="button is-small is-danger" onclick="defaultScene(event)">Scène par défaut</button>
+                <button class="button is-small is-danger" id="defaultSceneButton">Scène par défaut</button>
                 <input id="newFileInput" type="file" style="display:none;" accept=".json"/>
-                <button class="button is-small is-warning" id="loadJSONButton" onclick="loadFromJSON(event)">Charger à partir d'un fichier JSON</button>
+                <button class="button is-small is-warning" id="loadJSONButton">Charger à partir d'un fichier JSON</button>
             </div>
         </div>
 
@@ -75,7 +75,7 @@
         </section>
 
         <script src="./js/bulma-slider.min.js"></script>
-        <script src="./js/menu.js".js"></script> 
+        <script type="module" src="./js/menu.js".js"></script> 
         <script type="module" src="./js/main.js"></script>
     </body>
 </html>

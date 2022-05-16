@@ -1,1 +1,74 @@
-[{"path": "./models/ballon.glb", "name": "Ballon", "description": "Le ballon de football, normalis\u00c3\u00a9 par la F\u00c3\u00a9d\u00c3\u00a9ration internationale de football association (FIFA), a 32 faces : c'est un poly\u00c3\u00a8dre appel\u00c3\u00a9 icosa\u00c3\u00a8dre tronqu\u00c3\u00a9. ", "size": "0.30"}, {"path": "./models/car2.gltf", "name": "Voiture 2", "description": "La Voiture 2", "size": "2"}, {"path": "./models/bus.glb", "name": "Bus", "description": "Un autobus est un v\u00c3\u00a9hicule de transport routier de voyageurs en milieux urbain/p\u00c3\u00a9riurbain et suburbain. C'est l'un des principaux types de v\u00c3\u00a9hicules employ\u00c3\u00a9 dans les transports en commun. ", "size": "3.3"}, {"path": "./models/eiffel.glb", "name": "Tour Eiffel", "description": "La tour Eiffel \u00c3\u2030couter est une tour de fer puddl\u00c3\u00a9 de 330 m\u00c3\u00a8tres2 de hauteur (avec antennes) situ\u00c3\u00a9e \u00c3\u00a0 Paris, \u00c3\u00a0 l\u00e2\u20ac\u2122extr\u00c3\u00a9mit\u00c3\u00a9 nord-ouest du parc du Champ-de-Mars en bordure de la Seine dans le 7e arrondissement. Son adresse officielle est 5, avenue Anatole-France. ", "size": "300"}, {"path": "./models/f1.glb", "name": "F1", "description": "Le championnat du monde de Formule 1 2022 est la 73e \u00c3\u00a9dition du championnat du monde de Formule 1. Ce championnat voit une r\u00c3\u00a9vision majeure du r\u00c3\u00a8glement technique portant notamment sur l'\u00c3\u00a9volution du design des monoplaces, d\u00c3\u00a9sormais bas\u00c3\u00a9 sur l'effet de sol. Retard\u00c3\u00a9e d'une ann\u00c3\u00a9e en raison de la pand\u00c3\u00a9mie de Covid-19, la nouvelle r\u00c3\u00a9glementation a pour objectif de r\u00c3\u00a9duire les perturbations a\u00c3\u00a9rodynamiques g\u00c3\u00a9n\u00c3\u00a9r\u00c3\u00a9es par les monoplaces (ce qui modifie consid\u00c3\u00a9rablement leur aspect notamment au niveau du nez, des pontons, des ailerons et des roues qui passent de 13 \u00c3\u00a0 18 pouces) pour permettre davantage de d\u00c3\u00a9passements afin d'accro\u00c3\u00aetre le spectacle propos\u00c3\u00a9. ", "size": "0.95"}, {"path": "./models/mario.glb", "name": "Mario", "description": "Mario[e] is a fictional character created by Japanese video game designer Shigeru Miyamoto. He is the title character of the video game franchise of the same name and the mascot of Japanese video game company Nintendo. Mario has appeared in over 200 video games since his creation. Depicted as a short, pudgy, Italian plumber who resides in the Mushroom Kingdom, his adventures generally center on rescuing Princess Peach from the Koopa villain Bowser. Mario has access to a variety of power-ups that give him different abilities. Mario's fraternal twin brother is Luigi. ", "size": "1.12"}, {"path": "./models/hubble.obj", "name": "Hubble Space Satellite", "description": "Le satellite hubble", "size": "13.2"}, {"path": "./models/avion.obj", "name": "Boeing 747", "description": "Un Boeing 747", "size": "20.4"}, {"path": "./models/burj.glb", "name": "Burj Kalifa", "description": "Le Burj Kalifa", "size": "830"}, {"path": "./models/sauterelle.glb", "name": "Sauterelle", "description": "La Sauterelle", "size": "0.05"}, {"path": "./models/50cent.glb", "name": "50 Centimes d'euro", "description": "Une pi\u00c3\u00a8ce de 50 Centimes d'euro", "size": "0.024"}, {"path": "./models/iss.glb", "name": "ISS", "description": "La station spatiale internationale", "size": "73"}, {"path": "..\\models\\squelette.obj", "name": "Squelette ", "description": "Un squelette humain", "size": "1.7"}]
+[
+  {
+    "path": "./models/ballon.glb",
+    "name": "Ballon",
+    "description": "Le ballon de football, normalisé par la Fédération internationale de football association (FIFA), a 32 faces : c'est un polyédre appelé icosaèdre tronqué. ",
+    "size": "0.30"
+  },
+  {
+    "path": "./models/car2.gltf",
+    "name": "Voiture 2",
+    "description": "La Voiture 2",
+    "size": "2"
+  },
+  {
+    "path": "./models/bus.glb",
+    "name": "Bus",
+    "description": "Un autobus est un véhicule de transport routier de voyageurs en milieux urbain/périurbain et suburbain. C'est l'un des principaux types de véhicules employé dans les transports en commun. ",
+    "size": "3.3"
+  },
+  {
+    "path": "./models/eiffel.glb",
+    "name": "Tour Eiffel",
+    "description": "La tour Eiffel est une tour de fer puddlé de 330 mètres2 de hauteur (avec antennes) située à Paris, à l'extrémité nord-ouest du parc du Champ-de-Mars en bordure de la Seine dans le 7e arrondissement. Son adresse officielle est 5, avenue Anatole-France. ",
+    "size": "300"
+  },
+  {
+    "path": "./models/f1.glb",
+    "name": "F1",
+    "description": "Le championnat du monde de Formule 1 2022 est la 73e compétition du championnat du monde de Formule 1. Ce championnat voit une révision majeure du règlement technique portant notamment sur l'évolution du design des monoplaces, désormais basée sur l'effet de sol. Retardée d'une année en raison de la pandémie de Covid-19, la nouvelle règlementation a pour objectif de réduire les perturbations aérodynamiques générées par les monoplaces (ce qui modifie considérablement leur aspect notamment au niveau du nez, des pontons, des ailerons et des roues qui passent de 13 à 18 pouces) pour permettre davantage de dépassements afin d'accroître le spectacle proposé. ",
+    "size": "0.95"
+  },
+  {
+    "path": "./models/mario.glb",
+    "name": "Mario",
+    "description": "Mario[e] is a fictional character created by Japanese video game designer Shigeru Miyamoto. He is the title character of the video game franchise of the same name and the mascot of Japanese video game company Nintendo. Mario has appeared in over 200 video games since his creation. Depicted as a short, pudgy, Italian plumber who resides in the Mushroom Kingdom, his adventures generally center on rescuing Princess Peach from the Koopa villain Bowser. Mario has access to a variety of power-ups that give him different abilities. Mario's fraternal twin brother is Luigi. ",
+    "size": "1.12"
+  },
+  {
+    "path": "./models/hubble.obj",
+    "name": "Hubble Space Satellite",
+    "description": "Le satellite hubble",
+    "size": "13.2"
+  },
+  {
+    "path": "./models/avion.obj",
+    "name": "Boeing 747",
+    "description": "Un Boeing 747",
+    "size": "20.4"
+  },
+  {
+    "path": "./models/burj.glb",
+    "name": "Burj Kalifa",
+    "description": "Le Burj Kalifa",
+    "size": "830"
+  },
+  {
+    "path": "./models/sauterelle.glb",
+    "name": "Sauterelle",
+    "description": "La Sauterelle",
+    "size": "0.05"
+  },
+  {
+    "path": "./models/50cent.glb",
+    "name": "50 Centimes d'euro",
+    "description": "Une pièce de 50 Centimes d'euro",
+    "size": "0.024"
+  },
+  {
+    "path": "./models/iss.glb",
+    "name": "ISS",
+    "description": "La station spatiale internationale",
+    "size": "73"
+  }
+]

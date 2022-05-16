@@ -5,6 +5,8 @@ var closeBtn = document.getElementById("closebtn");
 var inputModel = document.getElementById("path");
 var inputFileName = document.getElementById("inputFilename");
 
+var defaultSceneButton = document.getElementById("defaultSceneButton");
+
 var loadJSONButton = document.getElementById("loadJSONButton");
 var inputJSON = document.getElementById('newFileInput');
 
@@ -12,6 +14,10 @@ inputModel.addEventListener( 'change', showFilename );
 sidenav.addEventListener('click', function (e) {e.stopPropagation();}); //Empêche la propagation du clic à la scène
 openBtn.addEventListener( 'click', openNav );
 closeBtn.addEventListener( 'click', closeNav );
+
+defaultSceneButton.addEventListener('click', defaultScene);
+
+loadJSONButton.addEventListener('click', loadFromJSON);
 inputJSON.addEventListener('change', loadJSON);
 
 function loadFromJSON(e){
@@ -59,10 +65,9 @@ function defaultScene(e){
   }
 }
 
-async function handleFormSubmit(event) {
-  
-  const input = document.getElementById("path")
+function handleFormSubmit(event) {
   event.preventDefault();
+  const input = document.getElementById("path")
   const data = new FormData(event.target);
   data.append("path", "./models/"+input.files[0].name);
   
