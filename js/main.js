@@ -15,7 +15,7 @@ var slider = document.getElementById("slider");
 
 
 //Caméra
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.0001, 2000);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.00001, 10000);
 var fov = camera.fov * ( Math.PI / 180 ); 
 
 //Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
@@ -46,25 +46,33 @@ scene.background = new THREE.Color(0.6, 0.6, 0.6)
 //Renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, gammaOutput: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 //Affichage du renderer dans le HTML
 document.body.appendChild(renderer.domElement);
 
 //Lumière
-scene.add( new THREE.AmbientLight( 0xffffff, 0.1 ) );
-var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1);
-light.position.set(0, 300, 0)
+var light = new THREE.HemisphereLight( 0xffffff, 0x080820, 1 );
+light.position.set(0, 500, 0)
 scene.add( light );
 
-light = new THREE.PointLight( 0xffffff, 3 );
+light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+light.position.set(0,500,0)
+light.castShadow = true;
+scene.add( light );
+
+light = new THREE.PointLight( 0xffffff, 0.2 );
 camera.add( light );
+scene.add(camera)
 
 //Plan/Sol
-const geometry = new THREE.PlaneGeometry( 2000, 2000, 9, 9 );
-var material = new THREE.MeshLambertMaterial(0xffffff);
+const geometry = new THREE.PlaneGeometry( 2000, 2000, 3, 3 );
+var material = new THREE.MeshBasicMaterial(0xffffff);
 const plane = new THREE.Mesh(geometry, material)
 plane.rotation.x = - Math.PI / 2
 plane.translateX(500)
+plane.receiveShadow = true;
 scene.add( plane );
 
 //const controls = new OrbitControls( camera, renderer.domElement );
