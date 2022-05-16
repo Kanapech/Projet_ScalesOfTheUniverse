@@ -1,10 +1,18 @@
 var sidenav = document.getElementById("addmenu");
 var openBtn = document.getElementById("addbtn");
 var closeBtn = document.getElementById("closebtn");
+var inputModel = document.getElementById("path");
+var inputFileName = document.getElementById("inputFilename");
 
+inputModel.addEventListener( 'change', showFilename );
 sidenav.addEventListener('click', function (e) {e.stopPropagation();}); //Empêche la propagation du clic à la scène
 openBtn.addEventListener( 'click', openNav );
 closeBtn.addEventListener( 'click', closeNav );
+
+function showFilename(event){
+  var input = event.srcElement;
+  inputFileName.innerHTML = input.files[0].name;
+}
 
 function openNav(event) {
   event.stopPropagation(); //Empêche la propagation du clic à la scène
@@ -14,6 +22,14 @@ function openNav(event) {
 function closeNav(event) {
   event.stopPropagation(); //Empêche la propagation du clic à la scène
   sidenav.classList.remove("active");
+}
+
+function defaultScene(e){
+  if(confirm('Vous êtes sur de retourner à la scène par défaut ?')) {
+      e.preventDefault();
+      window.localStorage.clear();
+      location.reload();
+  }
 }
 
 async function handleFormSubmit(event) {

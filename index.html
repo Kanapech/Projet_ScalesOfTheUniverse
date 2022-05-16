@@ -24,25 +24,43 @@
         <div id="addmenu" class="sidenav">
             <a id="closebtn" class="closebtn"><i class="fa-solid fa-xmark"></i></a>
             <form name="addform" id="addform" enctype="multipart/form-data">
-                <input type="file" id="path" name="path" accept=".glb, .gltf, .obj" required>
+                <div class="file is-small is-info is-boxed has-name">
+                    <label class="file-label">
+                      <input class="file-input" type="file" id="path" name="path" accept=".glb, .gltf, .obj" required>
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Choisissez un fichier
+                        </span>
+                      </span>
+                      <span id="inputFilename" class="file-name">
+                        Aucun fichier sélectionné
+                      </span>
+                    </label>
+                  </div>
                 <div> 
                     <label for="name">Nom du modèle</label>
-                    <input type="text" id="name" name="name" required>
+                    <input class="input is-small is-primary" type="text" placeholder="Nom de l'objet" style="width:15em" id="name" name="name" required>
                 </div>
                 <div> 
                     <label for="description">Description du modèle</label>
-                    <input type="text" id="description" name="description" required>
+                    <input class="input is-small is-primary" type="text" placeholder="Description de l'objet" style="width:15em" id="description" name="description" required>
                 </div>
                 <div> 
                     <label for="size">Échelle du modèle (en mètres)</label>
-                    <input type="number" id="size" name="size" step="0.1" required>
+                    <input class="input is-small is-primary" type="number" placeholder="Taille de l'objet" style="width:15em" id="size" name="size" step="0.1" required>
                 </div>
             
-
-                <button type="submit">Envoyer</button>
+                <button class="button" type="submit">Envoyer</button>
             </form>
             
-            <a href="modif.html">Retirer/Modifier des objets</a>
+            <div>
+                <a href="modif.html">Retirer/Modifier des objets</a>
+                <button class="button is-small is-danger" onclick="defaultScene(event)">Scène par défaut</button>
+                <button  class="button is-small is-warning" onclick="loadFromJSON()">Charger à partir d'un fichier JSON</button>
+            </div>
         </div>
 
 
