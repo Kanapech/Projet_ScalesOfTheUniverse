@@ -101,3 +101,7 @@ canvas {
     justify-content: center;
     transition: visibility 2s, opacity 1s linear;
 }
+
+#options{
+    padding: 10px;
+}
