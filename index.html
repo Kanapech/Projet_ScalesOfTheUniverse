@@ -23,19 +23,19 @@
         
         <div id="addmenu" class="sidenav">
             <a id="closebtn" class="closebtn"><i class="fa-solid fa-xmark"></i></a>
-            <form name="addform" id="addform" method="POST">
-                <input type="file" id="model_uploads" name="model_uploads" accept=".glb, .gltf, .obj" required>
+            <form name="addform" id="addform" enctype="multipart/form-data">
+                <input type="file" id="path" name="path" accept=".glb, .gltf, .obj" required>
                 <div> 
-                    <label for="name_input">Nom du modèle</label>
-                    <input type="text" id="name_input" name="name_input" required>
+                    <label for="name">Nom du modèle</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div> 
-                    <label for="scale_input">Échelle du modèle (en mètres)</label>
-                    <input type="number" id="scale_input" name="scale_input" step="0.1" required>
+                    <label for="description">Description du modèle</label>
+                    <input type="text" id="description" name="description" required>
                 </div>
                 <div> 
-                    <label for="desc_input">Description du modèle</label>
-                    <input type="text" id="desc_input" name="desc_input" required>
+                    <label for="size">Échelle du modèle (en mètres)</label>
+                    <input type="number" id="size" name="size" step="0.1" required>
                 </div>
             
 

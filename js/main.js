@@ -18,23 +18,6 @@ var slider = document.getElementById("slider");
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.00001, 10000);
 var fov = camera.fov * ( Math.PI / 180 ); 
 
-//Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
-fetch("./modelList.json")
-.then(response => {
-   return response.json();
-})
-.then(json => {
-	data = json.sort(function(a, b){
-		return a.size-b.size;
-		});
-	slider.setAttribute("max", data.length-1);
-	Loader.LoadAll(data,camera,scene,listModel,actualPos,center,distance);
-	
-	})
-.catch((error => {console.error(error)}));
-
-
-
 //Raycaster pour le pointage à la souris
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -78,13 +61,40 @@ scene.add( plane );
 //const controls = new OrbitControls( camera, renderer.domElement );
 //controls.update();
 
+//window.localStorage.clear()
+//Charge le fichier json, trie par taille et appelle loadAll pour charger les modèles
+if(window.localStorage.getItem("modelList") == undefined){
+	fetch("./modelList.json")
+	.then(response => {
+		return response.json();
+	})
+	.then(json => {
+		data = json.sort(function(a, b){ return a.size-b.size; });
+		//console.log(data);
+		slider.setAttribute("max", data.length-1);
+		Loader.LoadAll(data,camera,scene,listModel,actualPos,center,distance);
+		window.localStorage.setItem("modelList", JSON.stringify(data))
+	})
+	.catch((error => {
+		console.error(error)
+	}));
+}
+else{
+	data = JSON.parse(window.localStorage.getItem("modelList"));
+	slider.setAttribute("max", data.length-1);
+	Loader.LoadAll(data,camera,scene,listModel,actualPos,center,distance);
+	console.log(data);
+}
+
 // Model Description
-function showDesc() {
+function showDesc(event) {
+	
 	var descDisplay = document.getElementById("descDisplay");
 	var modelName = document.getElementById("modelName");
 	var modelDesc = document.getElementById("modelDesc");
 	var descCloseBtn = document.getElementById("descClosebtn");
-	descCloseBtn.onclick = closeDesc;
+	descCloseBtn.addEventListener( 'click', closeDesc );
+	descDisplay.addEventListener('click', function (e) {e.stopPropagation();}); //Empêche la propagation du clic à la scène
 
 	// Mets à jour le rayon à partir de la caméro et de la souris
 	raycaster.setFromCamera( pointer, camera );
@@ -94,17 +104,18 @@ function showDesc() {
 	var clickedObj = checkParentInList(intersects[0]);
 
 	if(clickedObj != undefined){
-		closeDesc();
+		closeDesc(event);
 		modelName.innerText = data[clickedObj]["name"] + " (" + data[clickedObj]["size"] + "m)"
 		modelDesc.innerText = data[clickedObj]["description"]
 		descDisplay.classList.add("active")
 	}
 	else if(descDisplay.classList.contains("active")){
-		closeDesc();
+		closeDesc(event);
 	}
 }
 
-function closeDesc() {
+function closeDesc(event) {
+	event.stopPropagation(); //Empêche la propagation du clic à la scène
 	descDisplay.classList.remove("active");
 }
 
@@ -130,16 +141,7 @@ function onPointerMove( event ) {
 window.addEventListener( 'pointermove', onPointerMove );
 window.addEventListener('click', showDesc)
 
-
-async function asyncForEach(array, callback) {
-	for (let index = 0; index < array.length; index++) {
-		await callback(array[index], index, array);
-	}
-}
-
-
 //Listeners pour le slider
-
 slider.value = 0;
 slider.addEventListener("input", moveCamera);
 window.addEventListener("wheel", moveSlider);
